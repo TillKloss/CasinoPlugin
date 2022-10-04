@@ -1,0 +1,10 @@
+name: Casino
+version: '${project.version}'
+main: de.firstmine.casino.Casino
+api-version: 1.19
+authors: [ Firstmine_ ]
+description: Spin the slot machine and flip coins.
+commands:
+  slot:
+  coinflip:
+    aliases: ["cf"]

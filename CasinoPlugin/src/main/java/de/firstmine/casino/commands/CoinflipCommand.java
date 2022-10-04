@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 
 
+
 public class CoinflipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

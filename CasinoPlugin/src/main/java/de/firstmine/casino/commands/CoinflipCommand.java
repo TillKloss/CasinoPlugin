@@ -78,4 +78,3 @@ public class CoinflipCommand implements CommandExecutor {
         return false;
     }
 }
-//test

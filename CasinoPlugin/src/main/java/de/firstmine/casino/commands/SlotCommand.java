@@ -36,9 +36,9 @@ public class SlotCommand implements CommandExecutor {
                         player.sendMessage(Casino.getCasinoPrefix()+" §f[§b"+(arr[0]+1)+"§f][§b"+
                                 (arr[1]+1)+"§f][§b"+(arr[2]+1)+"§f]");
                         if ((arr[0] == arr[1]) && (arr[0] == arr[2])) {
-                            player.sendMessage(Casino.getCasinoPrefix()+"§aHerzlichen Glückwunsch!");
+                            player.sendMessage(Casino.getCasinoPrefix()+"§aCongratulations!");
                             Inventory win = Bukkit.createInventory
-                                    (null, 9, "§aHerzlichen Glückwunsch!");
+                                    (null, 9, "§aCongratulations!");
                             ItemStack glass = new ItemStack(Material.GLASS_PANE, 1, (short) 14);
                             win.setItem(0, glass);
                             win.setItem(1, glass);
@@ -52,7 +52,7 @@ public class SlotCommand implements CommandExecutor {
                             player.openInventory(win);
                             break;
                         }else {
-                            player.sendMessage(Casino.getCasinoPrefix()+"§cDu hast verloren!");
+                            player.sendMessage(Casino.getCasinoPrefix()+"§cYou lose!");
                             break;
                         }
                     }
@@ -61,10 +61,10 @@ public class SlotCommand implements CommandExecutor {
                 }
             }
             if (!(check)) {
-                player.sendMessage(Casino.getCasinoPrefix()+"§cEine Drehung kostet §b1 Diamant§c.");
+                player.sendMessage(Casino.getCasinoPrefix()+"§cOne spin costs §b1 diamond§c.");
             }
         }else {
-            sender.sendMessage(Casino.getServerPrefix()+"§cDu bist kein Spieler.");
+            sender.sendMessage(Casino.getServerPrefix()+"§cYou are not a player.");
         }
         return false;
     }

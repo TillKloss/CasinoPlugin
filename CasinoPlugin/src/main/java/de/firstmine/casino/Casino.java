@@ -1,7 +1,7 @@
 package de.firstmine.casino;
 
-import de.firstmine.casino.commands.CoinflipCommand;
 import de.firstmine.casino.commands.SlotCommand;
+import de.firstmine.casino.commands.CoinflipCommand;
 import de.firstmine.casino.listeners.InventoryListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

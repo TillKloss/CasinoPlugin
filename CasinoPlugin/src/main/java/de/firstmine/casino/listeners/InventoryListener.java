@@ -14,9 +14,9 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void onInvClick(InventoryClickEvent event) {
         if (event.getCurrentItem() == null) return;
-        if (event.getView().getTitle().equals("§aHerzlichen Glückwunsch!")) {
+        if (event.getView().getTitle().equals("§aCongratulations!")) {
             Player player = (Player) event.getWhoClicked();
-            ItemStack glass = new ItemStack(Material.GLASS_PANE, 1, (short) 14);
+            ItemStack glass = new ItemStack(Material.RED_STAINED_GLASS_PANE);
             if (Objects.equals(event.getCurrentItem(), glass)) {
                 event.setCancelled(true);
             }

@@ -26,8 +26,4 @@ public final class Casino extends JavaPlugin {
     public static String getCasinoPrefix() {
         return ChatColor.GOLD + "[Casino]";
     }
-
-    @Override
-    public void onDisable() {
-    }
 }

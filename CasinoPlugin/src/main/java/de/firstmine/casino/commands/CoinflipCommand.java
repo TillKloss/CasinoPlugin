@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -18,63 +19,44 @@ import java.util.Random;
 public class CoinflipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            if (args.length == 0) {
-                player.sendMessage(Casino.getCasinoPrefix()+"§cBitte benutze /coinflip {kopf/zahl}.");
-            }else if (args.length == 1) {
-                if (args[0].equalsIgnoreCase("kopf") || args[0].equalsIgnoreCase("zahl")){
-                    ItemStack diamond = new ItemStack(Material.DIAMOND, 1);
-                    ItemStack[] inv = player.getInventory().getContents();
-                    boolean check = false;
-                    for (int i=0; i<36;i++) {
-                        if (!(player.getInventory().getItem(i) == null)) {
-                            if (player.getInventory().getItem(i).equals(diamond)) {
-                                player.getInventory().setItem(i, null);
-                                check = true;
-                                Random random = new Random();
-                                String[] arr = {"Kopf", "Zahl"};
-                                int result = random.nextInt(arr.length);
-                                if (arr[result].equalsIgnoreCase(args[0])) {
-                                    player.sendMessage(Casino.getCasinoPrefix()+"§aDer Münzwurf ergab §b"
-                                            +arr[result]+"§a. Herzlichen Glückwunsch!");
-                                    Inventory win = Bukkit.createInventory
-                                            (null, 9, "§aHerzlichen Glückwunsch!");
-                                    ItemStack glass = new ItemStack(Material.GLASS_PANE, 1, (short) 14);
-                                    win.setItem(0, glass);
-                                    win.setItem(1, glass);
-                                    win.setItem(2, glass);
-                                    win.setItem(3, diamond);
-                                    win.setItem(4, glass);
-                                    win.setItem(5, diamond);
-                                    win.setItem(6, glass);
-                                    win.setItem(7, glass);
-                                    win.setItem(8, glass);
-                                    player.openInventory(win);
-                                    break;
-                                }else {
-                                    player.sendMessage(Casino.getCasinoPrefix()+"§cDer Münzwurf ergab §b"
-                                            +arr[result]+"§c. Versuche es nochmal!");
-                                    break;
-                                }
-                            }
-                        }else {
-                            continue;
-                        }
-
-                    }
-                    if (!(check)) {
-                        player.sendMessage(Casino.getCasinoPrefix()+"§cEin Münzwurf kostet §b1 Diamant§c.");
-                    }
-                }
-
-            } else {
-                player.sendMessage(Casino.getCasinoPrefix()+"§cBitte benutze /coinflip {kopf/zahl}.");
-            }
-
-        }else {
-            sender.sendMessage(Casino.getServerPrefix()+"§cDu bist kein Spieler.");
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(Casino.getServerPrefix()+"§cYou are not a player.");
+            return false;
         }
+        if(!player.getInventory().containsAtLeast(new ItemStack(Material.DIAMOND), 1)){
+            player.sendMessage("Not enough diamonds -> Poor noob");
+            return false;
+        }
+        if (args.length != 1 || !("head".equalsIgnoreCase(args[0]) || "tails".equalsIgnoreCase(args[0]))) {
+            player.sendMessage(Casino.getCasinoPrefix()+"§cPlease use /coinflip {head/tails}.");
+            return false;
+        }
+        ItemStack diamond = new ItemStack(Material.DIAMOND);
+        for (ItemStack item : player.getInventory()) {
+            if (item == null) continue;
+            if (Objects.equals(item.getType(), diamond)) {
+                item.setAmount(item.getAmount()-1);
+                break;
+            }
+        }
+        Random random= new Random();
+        boolean result = (random.nextBoolean()?"head":"tails").equalsIgnoreCase(args[0]);
+        if (!(result)) {
+            player.sendMessage(Casino.getCasinoPrefix()+"§cThe coinflip did not result in §b"
+                    +args[0]+"§c. Try again!");
+            return false;
+        }
+        player.sendMessage(Casino.getCasinoPrefix()+"§aThe coinflip resulted in §b"
+                +args[0]+"§a. Congratulations!");
+        Inventory win = Bukkit.createInventory
+                (null, 9, "§aCongratulations!");
+        ItemStack glass = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+        for (int i=0; i<9; i++) {
+            win.setItem(i, glass);
+        }
+        win.setItem(3, diamond);
+        win.setItem(5, diamond);
+        player.openInventory(win);
         return false;
     }
 }

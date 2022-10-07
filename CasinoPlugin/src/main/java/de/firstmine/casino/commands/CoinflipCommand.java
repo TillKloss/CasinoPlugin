@@ -21,9 +21,9 @@ public class CoinflipCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
-                player.sendMessage(Casino.getCasinoPrefix()+"§cBitte benutze /coinflip {kopf/zahl}.");
+                player.sendMessage(Casino.getCasinoPrefix()+"§Please use /coinflip {head/tails}.");
             }else if (args.length == 1) {
-                if (args[0].equalsIgnoreCase("kopf") || args[0].equalsIgnoreCase("zahl")){
+                if (args[0].equalsIgnoreCase("head") || args[0].equalsIgnoreCase("tails")){
                     ItemStack diamond = new ItemStack(Material.DIAMOND, 1);
                     ItemStack[] inv = player.getInventory().getContents();
                     boolean check = false;
@@ -33,13 +33,13 @@ public class CoinflipCommand implements CommandExecutor {
                                 player.getInventory().setItem(i, null);
                                 check = true;
                                 Random random = new Random();
-                                String[] arr = {"Kopf", "Zahl"};
+                                String[] arr = {"Head", "Tails"};
                                 int result = random.nextInt(arr.length);
                                 if (arr[result].equalsIgnoreCase(args[0])) {
-                                    player.sendMessage(Casino.getCasinoPrefix()+"§aDer Münzwurf ergab §b"
-                                            +arr[result]+"§a. Herzlichen Glückwunsch!");
+                                    player.sendMessage(Casino.getCasinoPrefix()+"§aThe coinflip resulted in §b"
+                                            +arr[result]+"§a. Congratulations!");
                                     Inventory win = Bukkit.createInventory
-                                            (null, 9, "§aHerzlichen Glückwunsch!");
+                                            (null, 9, "§aCongratulations!");
                                     ItemStack glass = new ItemStack(Material.GLASS_PANE, 1, (short) 14);
                                     win.setItem(0, glass);
                                     win.setItem(1, glass);
@@ -53,8 +53,8 @@ public class CoinflipCommand implements CommandExecutor {
                                     player.openInventory(win);
                                     break;
                                 }else {
-                                    player.sendMessage(Casino.getCasinoPrefix()+"§cDer Münzwurf ergab §b"
-                                            +arr[result]+"§c. Versuche es nochmal!");
+                                    player.sendMessage(Casino.getCasinoPrefix()+"§cThe coinflip resulted in §b"
+                                            +arr[result]+"§c. Try again!");
                                     break;
                                 }
                             }
@@ -64,16 +64,16 @@ public class CoinflipCommand implements CommandExecutor {
 
                     }
                     if (!(check)) {
-                        player.sendMessage(Casino.getCasinoPrefix()+"§cEin Münzwurf kostet §b1 Diamant§c.");
+                        player.sendMessage(Casino.getCasinoPrefix()+"§cA coinflip costs §b1 diamond§c.");
                     }
                 }
 
             } else {
-                player.sendMessage(Casino.getCasinoPrefix()+"§cBitte benutze /coinflip {kopf/zahl}.");
+                player.sendMessage(Casino.getCasinoPrefix()+"§cPlease use /coinflip {head/tails}.");
             }
 
         }else {
-            sender.sendMessage(Casino.getServerPrefix()+"§cDu bist kein Spieler.");
+            sender.sendMessage(Casino.getServerPrefix()+"§cYou are not a player.");
         }
         return false;
     }

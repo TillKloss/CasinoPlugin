@@ -12,7 +12,6 @@ public final class Casino extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         getCommand("slot").setExecutor(new SlotCommand());
         getCommand("coinflip").setExecutor(new CoinflipCommand());
 
@@ -30,6 +29,5 @@ public final class Casino extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
     }
 }

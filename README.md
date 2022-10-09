@@ -7,4 +7,5 @@ Place a diamond in your inventory and execute one of the commands,
 if you win you may take your winnings from an inventory.
 
 /slot                     Spin the slot machine  
-/coinflip {head/tails}    Flip a coin
+/coinflip {head/tails}    Flip a coin  
+/scratchcards {1-5}

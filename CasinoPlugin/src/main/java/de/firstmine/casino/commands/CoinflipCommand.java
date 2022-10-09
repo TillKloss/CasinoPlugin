@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.Random;
 
 
-
 public class CoinflipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -24,7 +23,7 @@ public class CoinflipCommand implements CommandExecutor {
             return false;
         }
         if(!player.getInventory().containsAtLeast(new ItemStack(Material.DIAMOND), 1)){
-            player.sendMessage("Not enough diamonds -> Poor noob");
+            player.sendMessage("§cYou dont have §b\"+1+\" diamonds§c.");
             return false;
         }
         if (args.length != 1 || !("head".equalsIgnoreCase(args[0]) || "tails".equalsIgnoreCase(args[0]))) {
@@ -32,12 +31,13 @@ public class CoinflipCommand implements CommandExecutor {
             return false;
         }
         ItemStack diamond = new ItemStack(Material.DIAMOND);
+        if (!player.getInventory().containsAtLeast(diamond, 1)) {
+            player.sendMessage(Casino.getCasinoPrefix()+"§cYou dont have §b"+1+" diamonds§c.");
+            return true;
+        }
         for (ItemStack item : player.getInventory()) {
-            if (item == null) continue;
-            if (Objects.equals(item.getType(), diamond)) {
+            if (item != null)
                 item.setAmount(item.getAmount()-1);
-                break;
-            }
         }
         Random random= new Random();
         boolean result = (random.nextBoolean()?"head":"tails").equalsIgnoreCase(args[0]);

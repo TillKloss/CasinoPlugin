@@ -8,3 +8,5 @@ commands:
   slot:
   coinflip:
     aliases: ["cf"]
+  scratchcards:
+    aliases: ["sc"]

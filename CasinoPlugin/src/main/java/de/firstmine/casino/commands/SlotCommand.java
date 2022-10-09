@@ -27,12 +27,13 @@ public class SlotCommand implements CommandExecutor {
             return false;
         }
         ItemStack diamond = new ItemStack(Material.DIAMOND);
+        if (!player.getInventory().containsAtLeast(diamond, 1)) {
+            player.sendMessage(Casino.getCasinoPrefix()+"§cYou dont have §b"+1+" diamonds§c.");
+            return true;
+        }
         for (ItemStack item : player.getInventory()) {
-            if (!(item != null || Objects.equals(item.getType(), diamond))) {
-                continue;
-            }
-            item.setAmount(item.getAmount()-1);
-            break;
+            if (item != null)
+                item.setAmount(item.getAmount()-1);
         }
         Random random = new Random();
         int[] arr = new int[3];

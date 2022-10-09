@@ -1,5 +1,6 @@
 package de.firstmine.casino;
 
+import de.firstmine.casino.commands.ScratchCardsCommand;
 import de.firstmine.casino.commands.SlotCommand;
 import de.firstmine.casino.commands.CoinflipCommand;
 import de.firstmine.casino.listeners.InventoryListener;
@@ -14,6 +15,7 @@ public final class Casino extends JavaPlugin {
     public void onEnable() {
         getCommand("slot").setExecutor(new SlotCommand());
         getCommand("coinflip").setExecutor(new CoinflipCommand());
+        getCommand("scratchcards").setExecutor(new ScratchCardsCommand());
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new InventoryListener(), this);

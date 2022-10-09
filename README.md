@@ -8,4 +8,4 @@ if you win you may take your winnings from an inventory.
 
 /slot                     Spin the slot machine  
 /coinflip {head/tails}    Flip a coin  
-/scratchcards {1-5}
+/scratchcards {1-5}       Buy some scratchcards

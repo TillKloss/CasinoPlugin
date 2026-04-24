@@ -113,6 +113,11 @@ public class CasinoHandler {
 
             if (result.isCancelled()) return;
 
+            if (result.isPayback()) {
+                openSlotMachineInventory(player);
+                return;
+            }
+
             int multiplier = result.getMultiplier();
 
             if (multiplier > 0) {

@@ -1,5 +1,6 @@
 package de.firstminecoding.casinoPlugin.Casino;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -22,8 +23,8 @@ public class CasinoListener implements Listener {
     public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
         player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
-        InventoryHolder holder = event.getInventory().getHolder();
-        if (!(holder instanceof CasinoInventoryHolder casinoHolder)) return;
+        Inventory topInventory = event.getView().getTopInventory();
+        if (!(topInventory.getHolder() instanceof CasinoInventoryHolder casinoHolder)) return;
 
         if (casinoHolder.getType().equals("slot-machine-bet")) {
             if (event.getRawSlot() >=5 && event.getRawSlot() <=8) {
@@ -36,11 +37,38 @@ public class CasinoListener implements Listener {
         }
 
         if (casinoHolder.getType().equals("slot-machine-payout")) {
+            if (event.getRawSlot() == 52) {
+                event.setCancelled(true);
+
+                casinoHandler.stashRemainingPayout(player, topInventory);
+                casinoHandler.openSlotMachineInventory(player);
+
+                return;
+            }
+
             if (event.getRawSlot() == 53) {
                 event.setCancelled(true);
                 casinoHandler.handlePayoutClose(player);
                 return;
             }
+
+            event.setCancelled(false);
+            return;
+        }
+
+        if (casinoHolder.getType().equals("casino-stash")) {
+            if (event.getRawSlot() == 52 || event.getRawSlot() == 53) {
+                event.setCancelled(true);
+                player.closeInventory();
+
+                Bukkit.getScheduler().runTaskLater(
+                        casinoHandler.getPlugin(),
+                        () -> casinoHandler.openCasinoInventory(player),
+                        1L
+                );
+                return;
+            }
+
             event.setCancelled(false);
             return;
         }
@@ -54,13 +82,23 @@ public class CasinoListener implements Listener {
             if (clicked.getType() == Material.DIAMOND) {
                 casinoHandler.openSlotMachineInventory(player);
             }
+            if (clicked.getType() == Material.CHEST) {
+                casinoHandler.openStashInventory(player);
+            }
         }
 
         if (casinoHolder.getType().equals("slot-machine")) {
+            CasinoSession session = casinoHandler.getSession(player);
+
             if (clicked.getType() == Material.LIME_STAINED_GLASS_PANE) {
                 casinoHandler.startSlotMachine(player);
             }
             if (clicked.getType() == Material.ORANGE_STAINED_GLASS_PANE) {
+                if (session.isSpinning()) {
+                    event.setCancelled(true);
+                    return;
+                }
+
                 casinoHandler.openBetInventory(player);
             }
         }
@@ -73,8 +111,18 @@ public class CasinoListener implements Listener {
         Inventory inventory = event.getInventory();
 
         if (!(inventory.getHolder() instanceof  CasinoInventoryHolder holder)) return;
-        if (!holder.getType().equals("slot-machine-bet")) return;
+        if (holder.getType().equals("slot-machine-bet")) {
+            casinoHandler.saveBetFromInventory(player, inventory);
+            return;
+        }
+        if (holder.getType().equals("slot-machine-payout")) {
+            casinoHandler.stashRemainingPayout(player, inventory);
+            return;
+        }
+        if (holder.getType().equals("casino-stash")) {
+            casinoHandler.saveStashFromInventory(player, inventory);
+            return;
+        }
 
-        casinoHandler.saveBetFromInventory(player, inventory);
     }
 }

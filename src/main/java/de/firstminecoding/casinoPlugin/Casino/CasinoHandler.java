@@ -27,6 +27,10 @@ public class CasinoHandler {
         );
     }
 
+    public JavaPlugin getPlugin() {
+        return plugin;
+    }
+
     public void openCasinoInventory(Player player) {
         player.openInventory(new CasinoGUI().createCasinoInventory());
     }
@@ -37,6 +41,10 @@ public class CasinoHandler {
 
     public void openBetInventory(Player player) {
         player.openInventory(new CasinoGUI().createBetInventory(getSession(player)));
+    }
+
+    public void openStashInventory(Player player) {
+        player.openInventory(new CasinoGUI().createStashInventory(getSession(player)));
     }
 
     public void handleBetSave(Player player, Inventory inventory) {
@@ -105,6 +113,11 @@ public class CasinoHandler {
 
             if (result.isCancelled()) return;
 
+            if (result.isPayback()) {
+                openSlotMachineInventory(player);
+                return;
+            }
+
             int multiplier = result.getMultiplier();
 
             if (multiplier > 0) {
@@ -115,5 +128,45 @@ public class CasinoHandler {
                 openSlotMachineInventory(player);
             }
         });
+    }
+
+    public List<ItemStack> getRemainingPayoutItems(Inventory inventory) {
+        List<ItemStack> remaining = new ArrayList<>();
+
+        for (int i=0;i<50;i++) {
+            ItemStack item = inventory.getItem(i);
+
+            if (item != null && item.getType() != Material.AIR) {
+                remaining.add(item.clone());
+                inventory.setItem(i, null);
+            }
+        }
+        return remaining;
+    }
+
+    public void stashRemainingPayout(Player player, Inventory inventory) {
+        List<ItemStack> remaining = getRemainingPayoutItems(inventory);
+
+        if (remaining.isEmpty()) return;
+
+        getSession(player).addToStash(remaining);
+    }
+
+    public void saveStashFromInventory(Player player, Inventory inventory) {
+        List<ItemStack> stashItems = new ArrayList<>();
+
+        for (int i=0;i<52;i++) {
+            ItemStack item = inventory.getItem(i);
+
+            if(item != null && item.getType() != Material.AIR) {
+                stashItems.add(item.clone());
+            }
+        }
+
+        getSession(player).setStashItems(stashItems);
+    }
+
+    public void handleStashClose(Player player) {
+        openCasinoInventory(player);
     }
 }

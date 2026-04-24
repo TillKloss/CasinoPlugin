@@ -9,6 +9,7 @@ import java.util.UUID;
 public class CasinoSession {
     private final UUID uuid;
     private List<ItemStack> betItems = new ArrayList<>();
+    private List<ItemStack> stashItems = new ArrayList<>();
     private boolean spinning;
 
     public CasinoSession(UUID uuid) {
@@ -26,6 +27,42 @@ public class CasinoSession {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public void addToStash(List<ItemStack> items) {
+        for (ItemStack item : items) {
+            if (item != null) {
+                stashItems.add(item.clone());
+            }
+        }
+    }
+
+    public void clearStash() {
+        stashItems.clear();
+    }
+
+    public boolean hasStashItems() {
+        return !stashItems.isEmpty();
+    }
+
+    public List<ItemStack> getStashItems() {
+        List<ItemStack> copy = new ArrayList<>();
+
+        for (ItemStack item : stashItems) {
+            copy.add(item.clone());
+        }
+
+        return copy;
+    }
+
+    public void setStashItems(List<ItemStack> stashItems) {
+        this.stashItems = new ArrayList<>();
+
+        for (ItemStack item : stashItems) {
+            if (item != null) {
+                this.stashItems.add(item.clone());
+            }
+        }
     }
 
     public List<ItemStack> getBetItems() {

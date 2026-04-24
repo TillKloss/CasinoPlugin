@@ -10,22 +10,29 @@ import org.jetbrains.annotations.NotNull;
 
 public enum SlotMachineMaterial {
 
-    DIAMOND(Material.DIAMOND, Component.text("DIAMOND", NamedTextColor.AQUA, TextDecoration.BOLD), 10),
-    GOLD(Material.GOLD_INGOT, Component.text("GOLD", NamedTextColor.GOLD, TextDecoration.BOLD), 7),
-    IRON(Material.IRON_INGOT, Component.text("IRON", NamedTextColor.GRAY, TextDecoration.BOLD), 5);
+    DIAMOND(Material.DIAMOND, Component.text("DIAMOND", NamedTextColor.AQUA, TextDecoration.BOLD), 10, 1),
+    GOLD(Material.GOLD_INGOT, Component.text("GOLD", NamedTextColor.GOLD, TextDecoration.BOLD), 7, 1),
+    IRON(Material.IRON_INGOT, Component.text("IRON", NamedTextColor.GRAY, TextDecoration.BOLD), 5, 1),
+    COAL(Material.COAL, Component.text("COAL", NamedTextColor.BLACK, TextDecoration.BOLD), 0, 0)
+    ;
 
     private final Material material;
     private final Component name;
-    private final int multiplier;
+    private final int tripleMultiplier;
+    private final int doubleMultiplier;
 
-    SlotMachineMaterial(Material material, @NotNull Component name, int multiplier) {
+    SlotMachineMaterial(Material material, @NotNull Component name, int tripleMultiplier, int doubleMultiplier) {
         this.material = material;
         this.name = name;
-        this.multiplier = multiplier;
+        this.tripleMultiplier = tripleMultiplier;
+        this.doubleMultiplier = doubleMultiplier;
     }
 
-    public int getMultiplier() {
-        return multiplier;
+    public int getTripleMultiplier() {
+        return tripleMultiplier;
+    }
+    public int getDoubleMultiplier() {
+        return doubleMultiplier;
     }
 
     public ItemStack createItem() {

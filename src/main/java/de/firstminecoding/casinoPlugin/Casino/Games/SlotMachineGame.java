@@ -3,6 +3,7 @@ package de.firstminecoding.casinoPlugin.Casino.Games;
 import de.firstminecoding.casinoPlugin.Casino.CasinoInventoryHolder;
 import de.firstminecoding.casinoPlugin.Casino.SlotMachineMaterial;
 import de.firstminecoding.casinoPlugin.Casino.SlotMachineResult;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -67,9 +68,15 @@ public class SlotMachineGame {
 
                     if (result.isWin()) {
                         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+                    } else if (result.isPayback()) {
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.2f);
+                    } else {
+                        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.5f, 0.7f);
                     }
 
-                    onFinish.accept(result);
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        onFinish.accept(result);
+                    }, 30L);
                 }
 
             }

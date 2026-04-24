@@ -26,7 +26,7 @@ public class CasinoListener implements Listener {
         if (!(holder instanceof CasinoInventoryHolder casinoHolder)) return;
 
         if (casinoHolder.getType().equals("slot-machine-bet")) {
-            if (event.getSlot() >=5 && event.getSlot() <=8) {
+            if (event.getRawSlot() >=5 && event.getRawSlot() <=8) {
                 event.setCancelled(true);
                 casinoHandler.handleBetSave(player, event.getInventory());
                 return;

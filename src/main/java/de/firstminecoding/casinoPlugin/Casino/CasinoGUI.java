@@ -68,13 +68,16 @@ public class CasinoGUI {
         Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("slot-machine-bet"), 9, inventoryTitle);
 
         List<ItemStack> betItems = session.getBetItems();
-        for (int i=0;i<betItems.size() && i<8;i++) {
+        for (int i=0;i<betItems.size() && i<5;i++) {
             inventory.setItem(i, betItems.get(i));
         }
 
         ItemStack redGlassPane = CasinoPanes.RED_STAINED_GLASS_PANE.createItem();
 
-        inventory.setItem(8, redGlassPane);
+        for (int j=5;j<9;j++) {
+            inventory.setItem(j, redGlassPane);
+        }
+
 
         return inventory;
     }

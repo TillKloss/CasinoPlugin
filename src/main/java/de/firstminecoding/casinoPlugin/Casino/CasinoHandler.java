@@ -47,7 +47,7 @@ public class CasinoHandler {
     public void saveBetFromInventory(Player player, Inventory inventory) {
         List<ItemStack> betItems = new ArrayList<>();
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 5; i++) {
             ItemStack item = inventory.getItem(i);
 
             if (item != null && item.getType() != Material.AIR) {

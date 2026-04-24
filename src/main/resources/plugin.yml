@@ -1,0 +1,12 @@
+name: CasinoPlugin
+version: '${version}'
+
+commands:
+  casino:
+    description: Drehe an der Slot Maschine
+    usage: /casino
+    aliases: [slotmachine, sm]
+
+main: de.firstminecoding.casinoPlugin.CasinoPlugin
+api-version: '1.21.11'
+load: POSTWORLD

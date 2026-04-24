@@ -18,12 +18,16 @@ public class CasinoGUI {
         Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("casino-menu"), 9, inventoryTitle);
 
         ItemStack glassPane = CasinoPanes.GRAY_STAINED_GLASS_PANE.createItem();
-        ItemStack slotSymbol = createItem(Material.DIAMOND, Component.text("Slot Machine", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+        ItemStack chest = createItem(Material.CHEST,
+                Component.text("Stash", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+        ItemStack slotSymbol = createItem(Material.DIAMOND,
+                Component.text("Slot Machine", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
 
         for (int i = 0; i < 9; i++) {
             inventory.setItem(i, glassPane);
         }
         inventory.setItem(4, slotSymbol);
+        inventory.setItem(8, chest);
 
         return inventory;
     }
@@ -87,8 +91,26 @@ public class CasinoGUI {
         Component inventoryTitle = Component.text("Casino - Payout", NamedTextColor.GOLD, TextDecoration.BOLD);
         Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("slot-machine-payout"), 54, inventoryTitle);
 
+        ItemStack orangeGlassPane = createItem(Material.ORANGE_STAINED_GLASS_PANE,
+                Component.text("Move to Stash", NamedTextColor.GOLD, TextDecoration.BOLD));
+
         for (int i=0;i<rewards.size()&&i<53;i++) {
             inventory.setItem(i, rewards.get(i));
+        }
+        inventory.setItem(53, CasinoPanes.RED_STAINED_GLASS_PANE.createItem());
+        inventory.setItem(52, orangeGlassPane);
+
+        return inventory;
+    }
+
+    public Inventory createStashInventory(CasinoSession session) {
+        Component inventoryTitle = Component.text("Casino - Stash", NamedTextColor.GOLD, TextDecoration.BOLD);
+        Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("casino-stash"), 54, inventoryTitle);
+
+        List<ItemStack> stashItems = session.getStashItems();
+
+        for (int i=0;i<stashItems.size() && i<52;i++) {
+            inventory.setItem(i, stashItems.get(i));
         }
         inventory.setItem(53, CasinoPanes.RED_STAINED_GLASS_PANE.createItem());
 

@@ -75,6 +75,11 @@ public class CasinoListener implements Listener {
                 return;
             }
 
+            if (event.isShiftClick() && event.getRawSlot() >= topInventory.getSize()) {
+                event.setCancelled(true);
+                return;
+            }
+
             if (event.getRawSlot() < topInventory.getSize()) {
                 if (event.getCursor() != null && event.getCursor().getType() != Material.AIR) {
                     event.setCancelled(true);

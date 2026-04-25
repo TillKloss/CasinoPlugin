@@ -7,6 +7,8 @@ commands:
     usage: /casino
     aliases: [slotmachine, sm]
 
+depend: [Citizens]
+
 main: de.firstminecoding.casinoPlugin.CasinoPlugin
 api-version: '1.21.11'
 load: POSTWORLD

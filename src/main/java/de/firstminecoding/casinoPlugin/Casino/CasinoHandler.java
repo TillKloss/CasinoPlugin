@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -164,6 +165,27 @@ public class CasinoHandler {
         }
 
         getSession(player).setStashItems(stashItems);
+    }
+
+    public void collectAllStashItems(Player player, Inventory inventory) {
+        List<ItemStack> remaining = new ArrayList<>();
+
+        for (int i=0;i<52;i++) {
+            ItemStack item = inventory.getItem(i);
+
+            if (item == null || item.getType() == Material.AIR) continue;
+
+            Map<Integer, ItemStack> notAdded = player.getInventory().addItem(item.clone());
+
+            if (notAdded.isEmpty()) {
+                inventory.setItem(i, null);
+            } else {
+                remaining.addAll(notAdded.values());
+            }
+        }
+
+        getSession(player).setStashItems(remaining);
+        player.openInventory(new CasinoGUI().createStashInventory(getSession(player)));
     }
 
     public void handleStashClose(Player player) {

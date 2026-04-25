@@ -1,5 +1,6 @@
 package de.firstminecoding.casinoPlugin.Casino;
 
+import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -57,7 +58,12 @@ public class CasinoListener implements Listener {
         }
 
         if (casinoHolder.getType().equals("casino-stash")) {
-            if (event.getRawSlot() == 52 || event.getRawSlot() == 53) {
+            if (event.getRawSlot() == 52) {
+                event.setCancelled(true);
+                casinoHandler.collectAllStashItems(player, topInventory);
+                return;
+            }
+            if (event.getRawSlot() == 53) {
                 event.setCancelled(true);
                 player.closeInventory();
 
@@ -69,6 +75,14 @@ public class CasinoListener implements Listener {
                 return;
             }
 
+            if (event.getRawSlot() < topInventory.getSize()) {
+                if (event.getCursor() != null && event.getCursor().getType() != Material.AIR) {
+                    event.setCancelled(true);
+                    return;
+                }
+                event.setCancelled(false);
+                return;
+            }
             event.setCancelled(false);
             return;
         }
@@ -101,6 +115,9 @@ public class CasinoListener implements Listener {
 
                 casinoHandler.openBetInventory(player);
             }
+            if (clicked.getType() == Material.RED_STAINED_GLASS_PANE) {
+                casinoHandler.openCasinoInventory(player);
+            }
         }
     }
 
@@ -124,5 +141,13 @@ public class CasinoListener implements Listener {
             return;
         }
 
+    }
+
+    @EventHandler
+    public void onNPCRightClick(NPCRightClickEvent event) {
+        Player player = event.getClicker();
+        if (!event.getNPC().getName().equalsIgnoreCase("Casino")) return;
+
+        casinoHandler.openCasinoInventory(player);
     }
 }

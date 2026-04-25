@@ -40,6 +40,7 @@ public class CasinoGUI {
 
         ItemStack limeGlassPane = CasinoPanes.LIME_STAINED_GLASS_PANE.createItem();
         ItemStack orangeGlassPane = CasinoPanes.ORANGE_STAINED_GLASS_PANE.createItem();
+        ItemStack redGlassPane = CasinoPanes.RED_STAINED_GLASS_PANE.createItem();
         ItemStack diamondSymbol = SlotMachineMaterial.DIAMOND.createItem();
         ItemStack goldSymbol = SlotMachineMaterial.GOLD.createItem();
         ItemStack ironSymbol = SlotMachineMaterial.IRON.createItem();
@@ -53,10 +54,14 @@ public class CasinoGUI {
         for (int k=20;k<25;k++) {
             inventory.setItem(k, limeGlassPane);
         }
-        inventory.setItem(18, orangeGlassPane);
-        inventory.setItem(19, orangeGlassPane);
-        inventory.setItem(25, orangeGlassPane);
-        inventory.setItem(26, orangeGlassPane);
+        inventory.setItem(0, orangeGlassPane);
+        inventory.setItem(1, orangeGlassPane);
+        inventory.setItem(7, orangeGlassPane);
+        inventory.setItem(8, orangeGlassPane);
+        inventory.setItem(18, redGlassPane);
+        inventory.setItem(19, redGlassPane);
+        inventory.setItem(25, redGlassPane);
+        inventory.setItem(26, redGlassPane);
 
         List<ItemStack> betItems = session.getBetItems();
 
@@ -109,10 +114,15 @@ public class CasinoGUI {
 
         List<ItemStack> stashItems = session.getStashItems();
 
+        ItemStack greenGlassPane = createItem(Material.LIME_STAINED_GLASS_PANE,
+                Component.text("Collect all", NamedTextColor.GREEN, TextDecoration.BOLD));
+
         for (int i=0;i<stashItems.size() && i<52;i++) {
             inventory.setItem(i, stashItems.get(i));
         }
         inventory.setItem(53, CasinoPanes.RED_STAINED_GLASS_PANE.createItem());
+        inventory.setItem(52, greenGlassPane);
+
 
         return inventory;
     }

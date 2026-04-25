@@ -41,6 +41,25 @@ public class CasinoGUI {
         ItemStack limeGlassPane = CasinoPanes.LIME_STAINED_GLASS_PANE.createItem();
         ItemStack orangeGlassPane = CasinoPanes.ORANGE_STAINED_GLASS_PANE.createItem();
         ItemStack redGlassPane = CasinoPanes.RED_STAINED_GLASS_PANE.createItem();
+        ItemStack purpleGlassPane = createItem(Material.PURPLE_STAINED_GLASS_PANE,
+                Component.text("Payouts", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+
+        ItemMeta meta = purpleGlassPane.getItemMeta();
+        if (meta != null) {
+            meta.lore(List.of(
+                    Component.text("COAL ").color(NamedTextColor.DARK_GRAY)
+                            .append(Component.text("| 2x: loss | 3x: loss", NamedTextColor.GRAY)),
+                    Component.text("IRON ").color(NamedTextColor.GRAY)
+                            .append(Component.text("| 2x: payback | 3x: bet x5", NamedTextColor.GRAY)),
+                    Component.text("GOLD ").color(NamedTextColor.GOLD)
+                            .append(Component.text("| 2x: payback | 3x: bet x7", NamedTextColor.GRAY)),
+                    Component.text("DIAMOND ").color(NamedTextColor.AQUA)
+                            .append(Component.text("| 2x: payback | 3x: bet x10", NamedTextColor.GRAY)),
+                    Component.empty()
+            ));
+        }
+        purpleGlassPane.setItemMeta(meta);
+
         ItemStack diamondSymbol = SlotMachineMaterial.DIAMOND.createItem();
         ItemStack goldSymbol = SlotMachineMaterial.GOLD.createItem();
         ItemStack ironSymbol = SlotMachineMaterial.IRON.createItem();
@@ -58,6 +77,7 @@ public class CasinoGUI {
         inventory.setItem(1, orangeGlassPane);
         inventory.setItem(7, orangeGlassPane);
         inventory.setItem(8, orangeGlassPane);
+        inventory.setItem(10, purpleGlassPane);
         inventory.setItem(18, redGlassPane);
         inventory.setItem(19, redGlassPane);
         inventory.setItem(25, redGlassPane);

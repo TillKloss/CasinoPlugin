@@ -70,6 +70,18 @@ public class CoinflipListener implements Listener {
 
             CasinoSession session = casinoHandler.getSession(player);
 
+            if (event.getRawSlot() == 11) {
+                if (session.isCoinflipRunning()) return;
+                casinoHandler.getCoinflipHandler().selectSide(player, CoinflipSide.HEADS);
+                return;
+            }
+
+            if (event.getRawSlot() == 15) {
+                if (session.isCoinflipRunning()) return;
+                casinoHandler.getCoinflipHandler().selectSide(player, CoinflipSide.TAILS);
+                return;
+            }
+
             if (clicked.getType() == Material.LIME_STAINED_GLASS_PANE) {
                 casinoHandler.getCoinflipHandler().startCoinflip(player);
                 return;
@@ -86,18 +98,6 @@ public class CoinflipListener implements Listener {
                 if (session.isCoinflipRunning()) return;
 
                 casinoHandler.openCasinoInventory(player);
-            }
-
-            if (event.getRawSlot() == 11) {
-                if (session.isCoinflipRunning()) return;
-                casinoHandler.getCoinflipHandler().selectSide(player, CoinflipSide.HEADS);
-                return;
-            }
-
-            if (event.getRawSlot() == 15) {
-                if (session.isCoinflipRunning()) return;
-                casinoHandler.getCoinflipHandler().selectSide(player, CoinflipSide.TAILS);
-                return;
             }
         }
     }

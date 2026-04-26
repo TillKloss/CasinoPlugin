@@ -3,6 +3,7 @@ package de.firstminecoding.casinoPlugin.Casino.games.coinflip;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoSession;
 import de.firstminecoding.casinoPlugin.Casino.gui.CasinoPanes;
+import de.firstminecoding.casinoPlugin.Casino.util.ItemBuilderUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -10,9 +11,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import java.util.List;
 
-import static de.firstminecoding.casinoPlugin.Casino.util.ItemBuilder.createItem;
+import static de.firstminecoding.casinoPlugin.Casino.util.ItemBuilderUtil.*;
 
 public class CoinflipGUI {
     public Inventory createCoinflipInventory(CasinoSession session) {
@@ -29,6 +32,29 @@ public class CoinflipGUI {
 
         ItemStack head = CoinflipCustomHead.HEADS.createItem();
         ItemStack tails = CoinflipCustomHead.TAILS.createItem();
+
+        if (session.getSelectedCoinflipSide() == CoinflipSide.HEADS) {
+            ItemMeta meta = head.getItemMeta();
+            if (meta != null) {
+                meta.displayName(
+                        Component.text(">>HEADS<<",
+                                NamedTextColor.LIGHT_PURPLE,
+                                TextDecoration.BOLD
+                        ));
+                head.setItemMeta(meta);
+            }
+        }
+        if (session.getSelectedCoinflipSide() == CoinflipSide.TAILS) {
+            ItemMeta meta = tails.getItemMeta();
+            if (meta != null) {
+                meta.displayName(
+                        Component.text(">>TAILS<<",
+                                NamedTextColor.LIGHT_PURPLE,
+                                TextDecoration.BOLD
+                        ));
+                tails.setItemMeta(meta);
+            }
+        }
 
         for (int i=0;i<27;i++) {
             inventory.setItem(i, grayGlassPane);

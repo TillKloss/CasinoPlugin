@@ -2,10 +2,12 @@ package de.firstminecoding.casinoPlugin.Casino.util;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class ItemBuilder {
+public class ItemBuilderUtil {
     public static ItemStack createItem(Material material, Component name) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = itemStack.getItemMeta();

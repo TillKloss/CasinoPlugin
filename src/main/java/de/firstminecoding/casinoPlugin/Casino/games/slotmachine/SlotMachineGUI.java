@@ -11,7 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import static de.firstminecoding.casinoPlugin.Casino.util.ItemBuilder.createItem;
+import static de.firstminecoding.casinoPlugin.Casino.util.ItemBuilderUtil.createItem;
 
 import java.util.List;
 

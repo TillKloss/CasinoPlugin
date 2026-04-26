@@ -7,7 +7,7 @@ commands:
     usage: /casino
     aliases: [slotmachine, sm]
 
-depend: [Citizens]
+softdepend: [Citizens]
 
 main: de.firstminecoding.casinoPlugin.CasinoPlugin
 api-version: '1.21.11'

@@ -147,12 +147,4 @@ public class CasinoListener implements Listener {
         }
 
     }
-
-    @EventHandler
-    public void onNPCRightClick(NPCRightClickEvent event) {
-        Player player = event.getClicker();
-        if (!event.getNPC().getName().equalsIgnoreCase("Casino")) return;
-
-        casinoHandler.openCasinoInventory(player);
-    }
 }

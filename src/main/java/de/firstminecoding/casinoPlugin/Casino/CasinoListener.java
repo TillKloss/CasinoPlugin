@@ -121,6 +121,10 @@ public class CasinoListener implements Listener {
                 casinoHandler.openBetInventory(player);
             }
             if (clicked.getType() == Material.RED_STAINED_GLASS_PANE) {
+                if (session.isSpinning()) {
+                    event.setCancelled(true);
+                    return;
+                }
                 casinoHandler.openCasinoInventory(player);
             }
         }

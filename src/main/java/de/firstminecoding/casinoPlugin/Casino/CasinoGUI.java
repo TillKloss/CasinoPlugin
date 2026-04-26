@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 
 public class CasinoGUI {
-    public Inventory createCasinoInventory() {
+    public Inventory createCasinoInventory(CasinoSession session) {
         Component inventoryTitle = Component.text("Casino", NamedTextColor.GOLD, TextDecoration.BOLD);
 
         Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("casino-menu"), 9, inventoryTitle);
@@ -20,6 +20,23 @@ public class CasinoGUI {
         ItemStack glassPane = CasinoPanes.GRAY_STAINED_GLASS_PANE.createItem();
         ItemStack chest = createItem(Material.CHEST,
                 Component.text("Stash", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+        ItemMeta meta = chest.getItemMeta();
+
+        int itemStashAmount = 0;
+        for (ItemStack itemStack : session.getStashItems()) {
+            if (itemStack != null && itemStack.getType() != Material.AIR) {
+                itemStashAmount += itemStack.getAmount();
+            }
+        }
+        if (meta != null) {
+            meta.lore(List.of(
+                    Component.text(itemStashAmount, NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD)
+                            .append(Component.text(" items in stash", NamedTextColor.LIGHT_PURPLE)
+                                    .decoration(TextDecoration.BOLD, false))
+            ));
+            chest.setItemMeta(meta);
+        }
+
         ItemStack slotSymbol = createItem(Material.DIAMOND,
                 Component.text("Slot Machine", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
 

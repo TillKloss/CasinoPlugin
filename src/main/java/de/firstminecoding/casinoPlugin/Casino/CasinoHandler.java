@@ -33,7 +33,7 @@ public class CasinoHandler {
     }
 
     public void openCasinoInventory(Player player) {
-        player.openInventory(new CasinoGUI().createCasinoInventory());
+        player.openInventory(new CasinoGUI().createCasinoInventory(getSession(player)));
     }
 
     public void openSlotMachineInventory(Player player) {

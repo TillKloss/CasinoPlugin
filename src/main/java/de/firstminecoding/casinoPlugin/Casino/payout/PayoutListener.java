@@ -32,6 +32,12 @@ public class PayoutListener implements Listener {
 
         String returnType = type.replace("payout-", "");
 
+        if (event.getRawSlot() == 51) {
+            event.setCancelled(true);
+            casinoHandler.getPayoutHandler().collectAllPayoutItems(player, topInventory);
+            return;
+        }
+
         if (event.getRawSlot() == 52) {
             event.setCancelled(true);
             casinoHandler.getPayoutHandler().movePayoutToStash(player, topInventory, returnType);

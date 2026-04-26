@@ -21,12 +21,15 @@ public class PayoutGUI {
 
         ItemStack orangeGlassPane = createItem(Material.ORANGE_STAINED_GLASS_PANE,
                 Component.text("Move to Stash", NamedTextColor.GOLD, TextDecoration.BOLD));
+        ItemStack greenGlassPane = CasinoPanes.LIME.createItem(
+                Component.text("Collect all", NamedTextColor.GREEN, TextDecoration.BOLD));
 
         for (int i=0;i<rewards.size()&&i<53;i++) {
             inventory.setItem(i, rewards.get(i));
         }
         inventory.setItem(53, CasinoPanes.RED.createItem());
         inventory.setItem(52, orangeGlassPane);
+        inventory.setItem(51, greenGlassPane);
 
         return inventory;
     }

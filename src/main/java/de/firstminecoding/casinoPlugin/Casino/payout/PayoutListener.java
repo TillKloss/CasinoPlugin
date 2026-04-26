@@ -2,6 +2,7 @@ package de.firstminecoding.casinoPlugin.Casino.payout;
 
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,6 +41,21 @@ public class PayoutListener implements Listener {
         if (event.getRawSlot() == 53) {
             event.setCancelled(true);
             casinoHandler.getPayoutHandler().handlePayoutClose(player, returnType);
+            return;
+        }
+
+        if (event.isShiftClick() && event.getRawSlot() >= topInventory.getSize()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if (event.getRawSlot() < topInventory.getSize()) {
+            if (event.getCursor() != null && event.getCursor().getType() != Material.AIR) {
+                event.setCancelled(true);
+                return;
+            }
+
+            event.setCancelled(false);
             return;
         }
 

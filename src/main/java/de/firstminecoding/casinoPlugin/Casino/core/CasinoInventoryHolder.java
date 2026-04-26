@@ -1,4 +1,4 @@
-package de.firstminecoding.casinoPlugin.Casino;
+package de.firstminecoding.casinoPlugin.Casino.core;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;

@@ -1,6 +1,8 @@
 package de.firstminecoding.casinoPlugin.Casino;
 
-import de.firstminecoding.casinoPlugin.util.Message.MessageUtil;
+import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +19,7 @@ public class CasinoCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(MessageUtil.onlyPlayer());
+            sender.sendMessage(Component.text("Nur Spieler!", NamedTextColor.RED));
             return true;
         }
 

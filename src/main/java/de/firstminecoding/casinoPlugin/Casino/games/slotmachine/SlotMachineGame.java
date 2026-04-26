@@ -1,14 +1,11 @@
-package de.firstminecoding.casinoPlugin.Casino.Games;
+package de.firstminecoding.casinoPlugin.Casino.games.slotmachine;
 
-import de.firstminecoding.casinoPlugin.Casino.CasinoInventoryHolder;
-import de.firstminecoding.casinoPlugin.Casino.SlotMachineMaterial;
-import de.firstminecoding.casinoPlugin.Casino.SlotMachineResult;
+import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 

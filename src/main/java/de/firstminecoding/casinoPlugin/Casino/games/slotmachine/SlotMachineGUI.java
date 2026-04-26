@@ -1,5 +1,8 @@
-package de.firstminecoding.casinoPlugin.Casino;
+package de.firstminecoding.casinoPlugin.Casino.games.slotmachine;
 
+import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
+import de.firstminecoding.casinoPlugin.Casino.core.CasinoSession;
+import de.firstminecoding.casinoPlugin.Casino.gui.CasinoPanes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -8,47 +11,11 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import static de.firstminecoding.casinoPlugin.Casino.util.ItemBuilder.createItem;
 
 import java.util.List;
 
-public class CasinoGUI {
-    public Inventory createCasinoInventory(CasinoSession session) {
-        Component inventoryTitle = Component.text("Casino", NamedTextColor.GOLD, TextDecoration.BOLD);
-
-        Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("casino-menu"), 9, inventoryTitle);
-
-        ItemStack glassPane = CasinoPanes.GRAY_STAINED_GLASS_PANE.createItem();
-        ItemStack chest = createItem(Material.CHEST,
-                Component.text("Stash", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
-        ItemMeta meta = chest.getItemMeta();
-
-        int itemStashAmount = 0;
-        for (ItemStack itemStack : session.getStashItems()) {
-            if (itemStack != null && itemStack.getType() != Material.AIR) {
-                itemStashAmount += itemStack.getAmount();
-            }
-        }
-        if (meta != null) {
-            meta.lore(List.of(
-                    Component.text(itemStashAmount, NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD)
-                            .append(Component.text(" items in stash", NamedTextColor.LIGHT_PURPLE)
-                                    .decoration(TextDecoration.BOLD, false))
-            ));
-            chest.setItemMeta(meta);
-        }
-
-        ItemStack slotSymbol = createItem(Material.DIAMOND,
-                Component.text("Slot Machine", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
-
-        for (int i = 0; i < 9; i++) {
-            inventory.setItem(i, glassPane);
-        }
-        inventory.setItem(4, slotSymbol);
-        inventory.setItem(8, chest);
-
-        return inventory;
-    }
-
+public class SlotMachineGUI {
     public Inventory createSlotMachineInventory(CasinoSession session) {
         Component inventoryTitle = Component.text("Casino - Slot Machine", NamedTextColor.GOLD, TextDecoration.BOLD);
         Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("slot-machine"), 27, inventoryTitle);
@@ -145,42 +112,11 @@ public class CasinoGUI {
         return inventory;
     }
 
-    public Inventory createStashInventory(CasinoSession session) {
-        Component inventoryTitle = Component.text("Casino - Stash", NamedTextColor.GOLD, TextDecoration.BOLD);
-        Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("casino-stash"), 54, inventoryTitle);
-
-        List<ItemStack> stashItems = session.getStashItems();
-
-        ItemStack greenGlassPane = createItem(Material.LIME_STAINED_GLASS_PANE,
-                Component.text("Collect all", NamedTextColor.GREEN, TextDecoration.BOLD));
-
-        for (int i=0;i<stashItems.size() && i<52;i++) {
-            inventory.setItem(i, stashItems.get(i));
-        }
-        inventory.setItem(53, CasinoPanes.RED_STAINED_GLASS_PANE.createItem());
-        inventory.setItem(52, greenGlassPane);
-
-
-        return inventory;
-    }
-
     public void setSpinButton(Inventory inventory, Material material, Component component) {
         ItemStack itemStack = createItem(material, component);
 
         for (int i=20;i<25;i++) {
             inventory.setItem(i, itemStack);
         }
-    }
-
-    private ItemStack createItem(Material material, Component name) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-
-        if (itemMeta != null) {
-            itemMeta.displayName(name);
-            itemStack.setItemMeta(itemMeta);
-        }
-
-        return itemStack;
     }
 }

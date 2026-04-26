@@ -1,4 +1,4 @@
-package de.firstminecoding.casinoPlugin.Casino;
+package de.firstminecoding.casinoPlugin.Casino.gui;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

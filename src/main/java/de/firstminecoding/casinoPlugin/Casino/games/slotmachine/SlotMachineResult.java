@@ -1,4 +1,4 @@
-package de.firstminecoding.casinoPlugin.Casino;
+package de.firstminecoding.casinoPlugin.Casino.games.slotmachine;
 
 public class SlotMachineResult {
     private final SlotMachineMaterial first;

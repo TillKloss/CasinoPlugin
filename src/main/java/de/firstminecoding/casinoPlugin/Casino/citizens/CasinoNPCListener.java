@@ -1,6 +1,6 @@
-package de.firstminecoding.casinoPlugin.Casino.Citizens;
+package de.firstminecoding.casinoPlugin.Casino.citizens;
 
-import de.firstminecoding.casinoPlugin.Casino.CasinoHandler;
+import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -3,6 +3,7 @@ package de.firstminecoding.casinoPlugin.Casino.games.coinflip;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoSession;
+import de.firstminecoding.casinoPlugin.Casino.payout.PayoutGUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -55,8 +56,6 @@ public class CoinflipHandler {
         casinoHandler.getSession(player).setBetItems(betItems);
     }
 
-    public void handlePayoutClose(Player player) {openCoinflipInventory(player);}
-
     public void selectSide(Player player, CoinflipSide side) {
         CasinoSession session = casinoHandler.getSession(player);
 
@@ -90,7 +89,7 @@ public class CoinflipHandler {
             if (selected == result) {
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
                 List<ItemStack> rewards = multiplyItems(session.getBetItems(), 1);
-                player.openInventory(new CoinflipGUI().createPayoutInventory(rewards));
+                player.openInventory(new PayoutGUI().createPayoutInventory(rewards, "coinflip"));
             } else {
                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.5f, 0.7f);
                 session.clearBet();

@@ -3,6 +3,7 @@ package de.firstminecoding.casinoPlugin.Casino.games.slotmachine;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoSession;
+import de.firstminecoding.casinoPlugin.Casino.payout.PayoutGUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -53,10 +54,6 @@ public class SlotMachineHandler {
         casinoHandler.getSession(player).setBetItems(betItems);
     }
 
-    public void handlePayoutClose(Player player) {
-        openSlotMachineInventory(player);
-    }
-
     public void startSlotMachine(Player player) {
         Inventory inventory = player.getOpenInventory().getTopInventory();
         if (!(inventory.getHolder() instanceof CasinoInventoryHolder holder)
@@ -89,7 +86,7 @@ public class SlotMachineHandler {
 
             if (multiplier > 0) {
                 List<ItemStack> rewards = multiplyItems(session.getBetItems(), multiplier);
-                player.openInventory(new SlotMachineGUI().createPayoutInventory(rewards));
+                player.openInventory(new PayoutGUI().createPayoutInventory(rewards, "slot-machine"));
             } else {
                 session.clearBet();
                 openSlotMachineInventory(player);

@@ -41,26 +41,6 @@ public class SlotMachineListener implements Listener {
             return;
         }
 
-        if (casinoHolder.getType().equals("slot-machine-payout")) {
-            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
-
-            if (event.getRawSlot() == 52) {
-                event.setCancelled(true);
-                casinoHandler.getStashHandler().stashRemainingPayout(player, topInventory);
-                casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
-                return;
-            }
-
-            if (event.getRawSlot() == 53) {
-                event.setCancelled(true);
-                casinoHandler.getSlotMachineHandler().handlePayoutClose(player);
-                return;
-            }
-
-            event.setCancelled(false);
-            return;
-        }
-
         if (casinoHolder.getType().equals("slot-machine")) {
             event.setCancelled(true);
 
@@ -101,10 +81,6 @@ public class SlotMachineListener implements Listener {
         if (holder.getType().equals("slot-machine-bet")) {
             casinoHandler.getSlotMachineHandler().saveBetFromInventory(player, inventory);
             return;
-        }
-
-        if (holder.getType().equals("slot-machine-payout")) {
-            casinoHandler.getStashHandler().stashRemainingPayout(player, inventory);
         }
     }
 }

@@ -102,22 +102,6 @@ public class CoinflipGUI {
         return inventory;
     }
 
-    public Inventory createPayoutInventory(List<ItemStack> rewards) {
-        Component inventoryTitle = Component.text("Casino - Payout", NamedTextColor.GOLD, TextDecoration.BOLD);
-        Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("coinflip-payout"), 54, inventoryTitle);
-
-        ItemStack orangeGlassPane = createItem(Material.ORANGE_STAINED_GLASS_PANE,
-                Component.text("Move to Stash", NamedTextColor.GOLD, TextDecoration.BOLD));
-
-        for (int i=0;i<rewards.size()&&i<53;i++) {
-            inventory.setItem(i, rewards.get(i));
-        }
-        inventory.setItem(53, CasinoPanes.RED.createItem());
-        inventory.setItem(52, orangeGlassPane);
-
-        return inventory;
-    }
-
     public void setStartButton(Inventory inventory, Material material, Component component) {
         ItemStack itemStack = createItem(material, component);
 

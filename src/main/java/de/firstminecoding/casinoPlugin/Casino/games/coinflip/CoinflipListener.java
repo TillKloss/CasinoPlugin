@@ -40,26 +40,6 @@ public class CoinflipListener implements Listener {
             return;
         }
 
-        if (casinoHolder.getType().equals("coinflip-payout")) {
-            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
-
-            if (event.getRawSlot() == 52) {
-                event.setCancelled(true);
-                casinoHandler.getStashHandler().stashRemainingPayout(player, topInventory);
-                casinoHandler.getCoinflipHandler().openCoinflipInventory(player);
-                return;
-            }
-
-            if (event.getRawSlot() == 53) {
-                event.setCancelled(true);
-                casinoHandler.getCoinflipHandler().handlePayoutClose(player);
-                return;
-            }
-
-            event.setCancelled(false);
-            return;
-        }
-
         if (casinoHolder.getType().equals("coinflip")) {
             event.setCancelled(true);
 
@@ -114,8 +94,5 @@ public class CoinflipListener implements Listener {
             return;
         }
 
-        if (holder.getType().equals("coinflip-payout")) {
-            casinoHandler.getStashHandler().stashRemainingPayout(player, inventory);
-        }
     }
 }

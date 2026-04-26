@@ -39,6 +39,9 @@ public class CasinoListener implements Listener {
             if (clicked.getType() == Material.CHEST) {
                 casinoHandler.getStashHandler().openStashInventory(player);
             }
+            if (clicked.getType() == Material.RED_STAINED_GLASS_PANE) {
+                player.closeInventory();
+            }
         }
     }
 }

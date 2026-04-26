@@ -21,6 +21,7 @@ public class CasinoGUI {
         Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("casino-menu"), 9, inventoryTitle);
 
         ItemStack glassPane = CasinoPanes.GRAY.createItem();
+        ItemStack redPane = CasinoPanes.RED.createItem();
         ItemStack chest = createItem(Material.CHEST,
                 Component.text("Stash", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
         ItemMeta meta = chest.getItemMeta();
@@ -48,9 +49,10 @@ public class CasinoGUI {
         for (int i = 0; i < 9; i++) {
             inventory.setItem(i, glassPane);
         }
+        inventory.setItem(0, chest);
         inventory.setItem(3, slotSymbol);
         inventory.setItem(5, coinflipSymbol);
-        inventory.setItem(8, chest);
+        inventory.setItem(8, redPane);
 
         return inventory;
     }

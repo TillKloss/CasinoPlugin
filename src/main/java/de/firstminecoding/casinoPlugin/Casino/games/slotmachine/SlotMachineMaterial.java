@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 public enum SlotMachineMaterial {
 
-    DIAMOND(Material.DIAMOND, Component.text("DIAMOND", NamedTextColor.AQUA, TextDecoration.BOLD), 10, 1),
-    GOLD(Material.GOLD_INGOT, Component.text("GOLD", NamedTextColor.GOLD, TextDecoration.BOLD), 7, 1),
-    IRON(Material.IRON_INGOT, Component.text("IRON", NamedTextColor.GRAY, TextDecoration.BOLD), 5, 1),
+    DIAMOND(Material.DIAMOND, Component.text("DIAMOND", NamedTextColor.AQUA, TextDecoration.BOLD), 9, 1),
+    GOLD(Material.GOLD_INGOT, Component.text("GOLD", NamedTextColor.GOLD, TextDecoration.BOLD), 6, 1),
+    IRON(Material.IRON_INGOT, Component.text("IRON", NamedTextColor.GRAY, TextDecoration.BOLD), 4, 1),
     COAL(Material.COAL, Component.text("COAL", NamedTextColor.DARK_GRAY, TextDecoration.BOLD), 0, 0)
     ;
 

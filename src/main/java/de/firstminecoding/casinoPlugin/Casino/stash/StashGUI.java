@@ -22,13 +22,13 @@ public class StashGUI {
 
         List<ItemStack> stashItems = session.getStashItems();
 
-        ItemStack greenGlassPane = createItem(Material.LIME_STAINED_GLASS_PANE,
+        ItemStack greenGlassPane = CasinoPanes.LIME.createItem(
                 Component.text("Collect all", NamedTextColor.GREEN, TextDecoration.BOLD));
 
         for (int i=0;i<stashItems.size() && i<52;i++) {
             inventory.setItem(i, stashItems.get(i));
         }
-        inventory.setItem(53, CasinoPanes.RED_STAINED_GLASS_PANE.createItem());
+        inventory.setItem(53, CasinoPanes.RED.createItem());
         inventory.setItem(52, greenGlassPane);
 
 

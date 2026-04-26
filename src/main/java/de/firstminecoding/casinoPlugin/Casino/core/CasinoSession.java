@@ -1,5 +1,6 @@
 package de.firstminecoding.casinoPlugin.Casino.core;
 
+import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipSide;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ public class CasinoSession {
     private List<ItemStack> betItems = new ArrayList<>();
     private List<ItemStack> stashItems = new ArrayList<>();
     private boolean spinning;
+    private CoinflipSide selectedCoinflipSide;
+    private boolean coinflipRunning;
 
     public CasinoSession(UUID uuid) {
         this.uuid = uuid;
@@ -91,5 +94,21 @@ public class CasinoSession {
 
     public void setSpinning(boolean spinning) {
         this.spinning = spinning;
+    }
+
+    public CoinflipSide getSelectedCoinflipSide() {
+        return selectedCoinflipSide;
+    }
+
+    public void setSelectedCoinflipSide(CoinflipSide selectedCoinflipSide) {
+        this.selectedCoinflipSide = selectedCoinflipSide;
+    }
+
+    public boolean isCoinflipRunning() {
+        return coinflipRunning;
+    }
+
+    public void setCoinflipRunning(boolean coinflipRunning) {
+        this.coinflipRunning = coinflipRunning;
     }
 }

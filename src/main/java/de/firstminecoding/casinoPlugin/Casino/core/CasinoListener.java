@@ -33,27 +33,12 @@ public class CasinoListener implements Listener {
             if (clicked.getType() == Material.DIAMOND) {
                 casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
             }
+            if (clicked.getType() == Material.SUNFLOWER) {
+                casinoHandler.getCoinflipHandler().openCoinflipInventory(player);
+            }
             if (clicked.getType() == Material.CHEST) {
                 casinoHandler.getStashHandler().openStashInventory(player);
             }
         }
-    }
-
-    @EventHandler
-    public void onClose(InventoryCloseEvent event) {
-        if (!(event.getPlayer() instanceof Player player)) return;
-
-        Inventory inventory = event.getInventory();
-
-        if (!(inventory.getHolder() instanceof  CasinoInventoryHolder holder)) return;
-        if (holder.getType().equals("slot-machine-bet")) {
-            casinoHandler.getSlotMachineHandler().saveBetFromInventory(player, inventory);
-            return;
-        }
-        if (holder.getType().equals("slot-machine-payout")) {
-            casinoHandler.getStashHandler().stashRemainingPayout(player, inventory);
-            return;
-        }
-
     }
 }

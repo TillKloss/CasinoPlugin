@@ -3,7 +3,6 @@ package de.firstminecoding.casinoPlugin.Casino.games.slotmachine;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoSession;
-import de.firstminecoding.casinoPlugin.Casino.gui.CasinoGUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -14,8 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import static de.firstminecoding.casinoPlugin.Casino.util.RewardUtil.multiplyItems;
 
 public class SlotMachineHandler {
     private final CasinoHandler casinoHandler;
@@ -57,27 +57,6 @@ public class SlotMachineHandler {
         openSlotMachineInventory(player);
     }
 
-    public List<ItemStack> multiplyItems(List<ItemStack> items, int multiplier) {
-        if (multiplier <= 0) return Collections.emptyList();
-
-        List<ItemStack> rewards = new ArrayList<>();
-
-        for (ItemStack item : items) {
-            int total = item.getAmount() * multiplier;
-
-            while (total > 0) {
-                ItemStack reward = item.clone();
-
-                int amount = Math.min(total, reward.getMaxStackSize());
-                reward.setAmount(amount);
-
-                rewards.add(reward);
-                total -= amount;
-            }
-        }
-        return rewards;
-    }
-
     public void startSlotMachine(Player player) {
         Inventory inventory = player.getOpenInventory().getTopInventory();
         if (!(inventory.getHolder() instanceof CasinoInventoryHolder holder)
@@ -89,7 +68,8 @@ public class SlotMachineHandler {
         if (!session.hasBet()) return;
         session.setSpinning(true);
 
-        new SlotMachineGUI().setSpinButton(inventory, Material.RED_STAINED_GLASS_PANE, Component.text("...", NamedTextColor.RED, TextDecoration.BOLD));
+        new SlotMachineGUI().setSpinButton(inventory, Material.RED_STAINED_GLASS_PANE,
+                Component.text("...", NamedTextColor.RED, TextDecoration.BOLD));
 
         SlotMachineGame slotMachineGame = new SlotMachineGame();
         slotMachineGame.startSlotMachine(player, plugin, result -> {

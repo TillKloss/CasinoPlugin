@@ -3,17 +3,17 @@ package de.firstminecoding.casinoPlugin.Casino.core;
 import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipSide;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class CasinoSession {
     private final UUID uuid;
     private List<ItemStack> betItems = new ArrayList<>();
     private List<ItemStack> stashItems = new ArrayList<>();
+    private Set<Integer> selectedDiceNumbers = new HashSet<>();
     private boolean spinning;
     private CoinflipSide selectedCoinflipSide;
     private boolean coinflipRunning;
+    private boolean diceRolling;
 
     public CasinoSession(UUID uuid) {
         this.uuid = uuid;
@@ -86,6 +86,33 @@ public class CasinoSession {
                 this.betItems.add(item.clone());
             }
         }
+    }
+
+    public Set<Integer> getSelectedDiceNumbers() {
+        return new HashSet<>(selectedDiceNumbers);
+    }
+
+    public void toggleDiceNumber(int number) {
+        if (selectedDiceNumbers.contains(number)) {
+            selectedDiceNumbers.remove(number);
+            return;
+        }
+
+        if (selectedDiceNumbers.size() >= 3) return;
+
+        selectedDiceNumbers.add(number);
+    }
+
+    public void clearSelectedDiceNumbers() {
+        selectedDiceNumbers.clear();
+    }
+
+    public boolean isDiceRolling() {
+        return diceRolling;
+    }
+
+    public void setDiceRolling(boolean diceRolling) {
+        this.diceRolling = diceRolling;
     }
 
     public boolean isSpinning() {

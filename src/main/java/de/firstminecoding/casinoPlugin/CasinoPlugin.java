@@ -6,6 +6,7 @@ import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoListener;
 import de.firstminecoding.casinoPlugin.Casino.citizens.CasinoNPCListener;
 import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipListener;
+import de.firstminecoding.casinoPlugin.Casino.games.dice.DiceListener;
 import de.firstminecoding.casinoPlugin.Casino.games.slotmachine.SlotMachineListener;
 import de.firstminecoding.casinoPlugin.Casino.payout.PayoutListener;
 import de.firstminecoding.casinoPlugin.Casino.stash.StashListener;
@@ -25,6 +26,7 @@ public final class CasinoPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new StashListener(casinoHandler), this);
         getServer().getPluginManager().registerEvents(new SlotMachineListener(casinoHandler), this);
         getServer().getPluginManager().registerEvents(new CoinflipListener(casinoHandler), this);
+        getServer().getPluginManager().registerEvents(new DiceListener(casinoHandler), this);
         getServer().getPluginManager().registerEvents(new PayoutListener(casinoHandler), this);
         getServer().getPluginManager().registerEvents(new BetListener(casinoHandler), this);
         if (getServer().getPluginManager().getPlugin("Citizens") != null) {

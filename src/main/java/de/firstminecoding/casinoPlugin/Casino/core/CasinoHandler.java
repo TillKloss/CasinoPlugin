@@ -2,6 +2,7 @@ package de.firstminecoding.casinoPlugin.Casino.core;
 
 import de.firstminecoding.casinoPlugin.Casino.bet.BetHandler;
 import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipHandler;
+import de.firstminecoding.casinoPlugin.Casino.games.dice.DiceHandler;
 import de.firstminecoding.casinoPlugin.Casino.games.slotmachine.SlotMachineHandler;
 import de.firstminecoding.casinoPlugin.Casino.gui.CasinoGUI;
 import de.firstminecoding.casinoPlugin.Casino.payout.PayoutHandler;
@@ -17,6 +18,7 @@ public class CasinoHandler {
     private final StashHandler stashHandler;
     private final SlotMachineHandler slotMachineHandler;
     private final CoinflipHandler coinflipHandler;
+    private final DiceHandler diceHandler;
     private final PayoutHandler payoutHandler;
     private final BetHandler betHandler;
 
@@ -25,6 +27,7 @@ public class CasinoHandler {
         this.stashHandler = new StashHandler(this);
         this.slotMachineHandler = new SlotMachineHandler(this, plugin);
         this.coinflipHandler = new CoinflipHandler(this, plugin);
+        this.diceHandler = new DiceHandler(this, plugin);
         this.payoutHandler = new PayoutHandler(this);
         this.betHandler = new BetHandler(this);
     }
@@ -43,6 +46,7 @@ public class CasinoHandler {
         return slotMachineHandler;
     }
     public CoinflipHandler getCoinflipHandler() {return coinflipHandler;}
+    public DiceHandler getDiceHandler() {return diceHandler;}
     public PayoutHandler getPayoutHandler() {return payoutHandler;}
     public BetHandler getBetHandler() {return betHandler;}
 

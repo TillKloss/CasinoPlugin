@@ -31,6 +31,10 @@ public class PayoutHandler {
             casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
             return;
         }
+        if (returnType.equals("dice")) {
+            casinoHandler.getDiceHandler().openDiceInventory(player);
+            return;
+        }
     }
 
     public void movePayoutToStash(Player player, Inventory inventory, String returnType) {

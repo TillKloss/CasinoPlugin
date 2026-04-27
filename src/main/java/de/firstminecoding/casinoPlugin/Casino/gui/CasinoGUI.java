@@ -2,6 +2,8 @@ package de.firstminecoding.casinoPlugin.Casino.gui;
 
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoSession;
+import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipCustomHead;
+import de.firstminecoding.casinoPlugin.Casino.games.dice.DiceCustomHead;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -43,15 +45,26 @@ public class CasinoGUI {
 
         ItemStack slotSymbol = createItem(Material.DIAMOND,
                 Component.text("Slot Machine", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
-        ItemStack coinflipSymbol = createItem(Material.SUNFLOWER,
-                Component.text("Coinflip", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+        ItemStack coinflipSymbol = CoinflipCustomHead.HEADS.createItem();
+        ItemMeta metaCoinflip = coinflipSymbol.getItemMeta();
+        if (metaCoinflip != null) {
+            metaCoinflip.displayName(Component.text("Coinflip", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+            coinflipSymbol.setItemMeta(metaCoinflip);
+        }
+        ItemStack diceSymbol = DiceCustomHead.DICE_ONE.createItem();
+        ItemMeta metaDice = diceSymbol.getItemMeta();
+        if (metaDice != null) {
+            metaDice.displayName(Component.text("Dice", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+            diceSymbol.setItemMeta(metaDice);
+        }
 
         for (int i = 0; i < 9; i++) {
             inventory.setItem(i, glassPane);
         }
         inventory.setItem(0, chest);
-        inventory.setItem(3, slotSymbol);
-        inventory.setItem(5, coinflipSymbol);
+        inventory.setItem(2, slotSymbol);
+        inventory.setItem(4, diceSymbol);
+        inventory.setItem(6, coinflipSymbol);
         inventory.setItem(8, redPane);
 
         return inventory;

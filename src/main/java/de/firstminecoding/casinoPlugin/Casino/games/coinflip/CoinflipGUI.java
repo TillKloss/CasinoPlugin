@@ -84,24 +84,6 @@ public class CoinflipGUI {
         return inventory;
     }
 
-    public Inventory createBetInventory(CasinoSession session) {
-        Component inventoryTitle = Component.text("Casino - Place Bet", NamedTextColor.GOLD, TextDecoration.BOLD);
-        Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("coinflip-bet"), 9, inventoryTitle);
-
-        List<ItemStack> betItems = session.getBetItems();
-        for (int i=0;i<betItems.size() && i<5;i++) {
-            inventory.setItem(i, betItems.get(i));
-        }
-
-        ItemStack redGlassPane = CasinoPanes.RED.createItem();
-
-        for (int j=5;j<9;j++) {
-            inventory.setItem(j, redGlassPane);
-        }
-
-        return inventory;
-    }
-
     public void setStartButton(Inventory inventory, Material material, Component component) {
         ItemStack itemStack = createItem(material, component);
 

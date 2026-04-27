@@ -26,6 +26,7 @@ public class BetHandler {
         switch (returnType) {
             case "slot-machine" -> casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
             case "coinflip" -> casinoHandler.getCoinflipHandler().openCoinflipInventory(player);
+            case "dice" -> casinoHandler.getDiceHandler().openDiceInventory(player);
         }
     }
 

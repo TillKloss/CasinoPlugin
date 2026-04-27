@@ -1,5 +1,8 @@
 package de.firstminecoding.casinoPlugin.Casino.core;
 
+import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipCustomHead;
+import de.firstminecoding.casinoPlugin.Casino.games.dice.DiceCustomHead;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -30,17 +33,24 @@ public class CasinoListener implements Listener {
         if (clicked ==null || clicked.getType() == Material.AIR) return;
 
         if (casinoHolder.getType().equals("casino-menu")) {
-            if (clicked.getType() == Material.DIAMOND) {
-                casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
-            }
-            if (clicked.getType() == Material.SUNFLOWER) {
-                casinoHandler.getCoinflipHandler().openCoinflipInventory(player);
-            }
-            if (clicked.getType() == Material.CHEST) {
-                casinoHandler.getStashHandler().openStashInventory(player);
-            }
-            if (clicked.getType() == Material.RED_STAINED_GLASS_PANE) {
-                player.closeInventory();
+            int slot = event.getRawSlot();
+
+            switch (slot) {
+                case 0 -> {
+                    casinoHandler.getStashHandler().openStashInventory(player);
+                }
+                case 2 -> {
+                    casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
+                }
+                case 4 -> {
+                    casinoHandler.getDiceHandler().openDiceInventory(player);
+                }
+                case 6 -> {
+                    casinoHandler.getCoinflipHandler().openCoinflipInventory(player);
+                }
+                case 8 -> {
+                    player.closeInventory();
+                }
             }
         }
     }

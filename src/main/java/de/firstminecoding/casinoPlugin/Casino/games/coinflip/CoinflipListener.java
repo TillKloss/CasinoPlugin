@@ -27,19 +27,6 @@ public class CoinflipListener implements Listener {
         Inventory topInventory = event.getView().getTopInventory();
         if (!(topInventory.getHolder() instanceof CasinoInventoryHolder casinoHolder)) return;
 
-        if (casinoHolder.getType().equals("coinflip-bet")) {
-            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
-
-            if (event.getRawSlot() >= 5 && event.getRawSlot() <= 8) {
-                event.setCancelled(true);
-                casinoHandler.getCoinflipHandler().handleBetSave(player, event.getInventory());
-                return;
-            }
-
-            event.setCancelled(false);
-            return;
-        }
-
         if (casinoHolder.getType().equals("coinflip")) {
             event.setCancelled(true);
 
@@ -70,7 +57,7 @@ public class CoinflipListener implements Listener {
             if (clicked.getType() == Material.ORANGE_STAINED_GLASS_PANE) {
                 if (session.isCoinflipRunning()) return;
 
-                casinoHandler.getCoinflipHandler().openBetInventory(player);
+                casinoHandler.getBetHandler().openBetInventory(player, "coinflip");
                 return;
             }
 
@@ -80,19 +67,5 @@ public class CoinflipListener implements Listener {
                 casinoHandler.openCasinoInventory(player);
             }
         }
-    }
-
-    @EventHandler
-    public void onClose(InventoryCloseEvent event) {
-        if (!(event.getPlayer() instanceof Player player)) return;
-
-        Inventory inventory = event.getInventory();
-        if (!(inventory.getHolder() instanceof CasinoInventoryHolder holder)) return;
-
-        if (holder.getType().equals("coinflip-bet")) {
-            casinoHandler.getCoinflipHandler().saveBetFromInventory(player, inventory);
-            return;
-        }
-
     }
 }

@@ -28,19 +28,6 @@ public class SlotMachineListener implements Listener {
         Inventory topInventory = event.getView().getTopInventory();
         if (!(topInventory.getHolder() instanceof CasinoInventoryHolder casinoHolder)) return;
 
-        if (casinoHolder.getType().equals("slot-machine-bet")) {
-            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
-
-            if (event.getRawSlot() >= 5 && event.getRawSlot() <= 8) {
-                event.setCancelled(true);
-                casinoHandler.getSlotMachineHandler().handleBetSave(player, event.getInventory());
-                return;
-            }
-
-            event.setCancelled(false);
-            return;
-        }
-
         if (casinoHolder.getType().equals("slot-machine")) {
             event.setCancelled(true);
 
@@ -59,7 +46,7 @@ public class SlotMachineListener implements Listener {
             if (clicked.getType() == Material.ORANGE_STAINED_GLASS_PANE) {
                 if (session.isSpinning()) return;
 
-                casinoHandler.getSlotMachineHandler().openBetInventory(player);
+                casinoHandler.getBetHandler().openBetInventory(player, "slot-machine");
                 return;
             }
 
@@ -68,19 +55,6 @@ public class SlotMachineListener implements Listener {
 
                 casinoHandler.openCasinoInventory(player);
             }
-        }
-    }
-
-    @EventHandler
-    public void onClose(InventoryCloseEvent event) {
-        if (!(event.getPlayer() instanceof Player player)) return;
-
-        Inventory inventory = event.getInventory();
-        if (!(inventory.getHolder() instanceof CasinoInventoryHolder holder)) return;
-
-        if (holder.getType().equals("slot-machine-bet")) {
-            casinoHandler.getSlotMachineHandler().saveBetFromInventory(player, inventory);
-            return;
         }
     }
 }

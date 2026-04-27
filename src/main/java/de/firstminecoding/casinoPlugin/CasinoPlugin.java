@@ -1,6 +1,7 @@
 package de.firstminecoding.casinoPlugin;
 
 import de.firstminecoding.casinoPlugin.Casino.CasinoCommand;
+import de.firstminecoding.casinoPlugin.Casino.bet.BetListener;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoListener;
 import de.firstminecoding.casinoPlugin.Casino.citizens.CasinoNPCListener;
@@ -25,6 +26,7 @@ public final class CasinoPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SlotMachineListener(casinoHandler), this);
         getServer().getPluginManager().registerEvents(new CoinflipListener(casinoHandler), this);
         getServer().getPluginManager().registerEvents(new PayoutListener(casinoHandler), this);
+        getServer().getPluginManager().registerEvents(new BetListener(casinoHandler), this);
         if (getServer().getPluginManager().getPlugin("Citizens") != null) {
             getServer().getPluginManager().registerEvents(new CasinoNPCListener(casinoHandler), this);
         }

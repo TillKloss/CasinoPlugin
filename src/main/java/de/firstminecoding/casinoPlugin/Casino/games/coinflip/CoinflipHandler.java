@@ -33,29 +33,6 @@ public class CoinflipHandler {
         player.openInventory(new CoinflipGUI().createCoinflipInventory(casinoHandler.getSession(player)));
     }
 
-    public void openBetInventory(Player player) {
-        player.openInventory(new CoinflipGUI().createBetInventory(casinoHandler.getSession(player)));
-    }
-
-    public void handleBetSave(Player player, Inventory inventory) {
-        saveBetFromInventory(player, inventory);
-        openCoinflipInventory(player);
-    }
-
-    public void saveBetFromInventory(Player player, Inventory inventory) {
-        List<ItemStack> betItems = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            ItemStack item = inventory.getItem(i);
-
-            if (item != null && item.getType() != Material.AIR) {
-                betItems.add(item.clone());
-            }
-        }
-
-        casinoHandler.getSession(player).setBetItems(betItems);
-    }
-
     public void selectSide(Player player, CoinflipSide side) {
         CasinoSession session = casinoHandler.getSession(player);
 

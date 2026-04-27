@@ -31,28 +31,7 @@ public class SlotMachineHandler {
         player.openInventory(new SlotMachineGUI().createSlotMachineInventory(casinoHandler.getSession(player)));
     }
 
-    public void openBetInventory(Player player) {
-        player.openInventory(new SlotMachineGUI().createBetInventory(casinoHandler.getSession(player)));
-    }
 
-    public void handleBetSave(Player player, Inventory inventory) {
-        saveBetFromInventory(player, inventory);
-        openSlotMachineInventory(player);
-    }
-
-    public void saveBetFromInventory(Player player, Inventory inventory) {
-        List<ItemStack> betItems = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            ItemStack item = inventory.getItem(i);
-
-            if (item != null && item.getType() != Material.AIR) {
-                betItems.add(item.clone());
-            }
-        }
-
-        casinoHandler.getSession(player).setBetItems(betItems);
-    }
 
     public void startSlotMachine(Player player) {
         Inventory inventory = player.getOpenInventory().getTopInventory();

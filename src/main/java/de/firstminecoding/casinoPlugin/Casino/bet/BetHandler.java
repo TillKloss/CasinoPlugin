@@ -1,7 +1,6 @@
 package de.firstminecoding.casinoPlugin.Casino.bet;
 
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
-import de.firstminecoding.casinoPlugin.Casino.games.slotmachine.SlotMachineGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -25,6 +24,7 @@ public class BetHandler {
         saveBetFromInventory(player, inventory);
         switch (returnType) {
             case "slot-machine" -> casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
+            case "book-slot" -> casinoHandler.getBookSlotHandler().openBookSlotInventory(player);
             case "coinflip" -> casinoHandler.getCoinflipHandler().openCoinflipInventory(player);
             case "dice" -> casinoHandler.getDiceHandler().openDiceInventory(player);
         }

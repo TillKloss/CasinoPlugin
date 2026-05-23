@@ -1,16 +1,12 @@
 package de.firstminecoding.casinoPlugin.Casino.core;
 
-import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipCustomHead;
-import de.firstminecoding.casinoPlugin.Casino.games.bookslot.BookSlotGUI;
-import de.firstminecoding.casinoPlugin.Casino.games.dice.DiceCustomHead;
-import net.kyori.adventure.text.Component;
+import de.firstminecoding.casinoPlugin.Casino.gui.CasinoGUI;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -41,13 +37,10 @@ public class CasinoListener implements Listener {
                     casinoHandler.getStashHandler().openStashInventory(player);
                 }
                 case 2 -> {
-                    casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
+                    player.openInventory(new CasinoGUI().createSlotSelectionInventory());
                 }
                 case 4 -> {
                     casinoHandler.getDiceHandler().openDiceInventory(player);
-                }
-                case 5 -> {
-                    player.openInventory(new BookSlotGUI().createBookSlotInventory());
                 }
                 case 6 -> {
                     casinoHandler.getCoinflipHandler().openCoinflipInventory(player);
@@ -55,6 +48,16 @@ public class CasinoListener implements Listener {
                 case 8 -> {
                     player.closeInventory();
                 }
+            }
+        }
+
+        if (casinoHolder.getType().equals("slot-selection")) {
+            int slot = event.getRawSlot();
+
+            switch (slot) {
+                case 3 -> casinoHandler.getSlotMachineHandler().openSlotMachineInventory(player);
+                case 5 -> casinoHandler.getBookSlotHandler().openBookSlotInventory(player);
+                case 8 -> casinoHandler.openCasinoInventory(player);
             }
         }
     }

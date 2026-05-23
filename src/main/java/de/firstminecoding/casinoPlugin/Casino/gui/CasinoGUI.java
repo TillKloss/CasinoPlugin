@@ -45,8 +45,6 @@ public class CasinoGUI {
 
         ItemStack slotSymbol = createItem(Material.DIAMOND,
                 Component.text("Slot Machine", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
-        ItemStack bookSlotSymbol = createItem(Material.BOOK,
-                Component.text("Book Slot", NamedTextColor.GOLD, TextDecoration.BOLD));
         ItemStack coinflipSymbol = CoinflipCustomHead.HEADS.createItem();
         ItemMeta metaCoinflip = coinflipSymbol.getItemMeta();
         if (metaCoinflip != null) {
@@ -66,8 +64,29 @@ public class CasinoGUI {
         inventory.setItem(0, chest);
         inventory.setItem(2, slotSymbol);
         inventory.setItem(4, diceSymbol);
-        inventory.setItem(5, bookSlotSymbol);
         inventory.setItem(6, coinflipSymbol);
+        inventory.setItem(8, redPane);
+
+        return inventory;
+    }
+
+    public Inventory createSlotSelectionInventory() {
+        Component inventoryTitle = Component.text("Casino - Slots", NamedTextColor.GOLD, TextDecoration.BOLD);
+        Inventory inventory = Bukkit.createInventory(new CasinoInventoryHolder("slot-selection"), 9, inventoryTitle);
+
+        ItemStack glassPane = CasinoPanes.GRAY.createItem();
+        ItemStack redPane = CasinoPanes.RED.createItem();
+        ItemStack classicSlotSymbol = createItem(Material.DIAMOND,
+                Component.text("Classic Slot Machine", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+        ItemStack bookSlotSymbol = createItem(Material.BOOK,
+                Component.text("Book Slot", NamedTextColor.GOLD, TextDecoration.BOLD));
+
+        for (int i = 0; i < 9; i++) {
+            inventory.setItem(i, glassPane);
+        }
+
+        inventory.setItem(3, classicSlotSymbol);
+        inventory.setItem(5, bookSlotSymbol);
         inventory.setItem(8, redPane);
 
         return inventory;

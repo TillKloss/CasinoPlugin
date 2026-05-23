@@ -6,7 +6,7 @@
 
     <groupId>de.firstminecoding</groupId>
     <artifactId>CasinoPlugin</artifactId>
-    <version>4.0.1</version>
+    <version>5.0.0</version>
     <packaging>jar</packaging>
 
     <name>CasinoPlugin</name>

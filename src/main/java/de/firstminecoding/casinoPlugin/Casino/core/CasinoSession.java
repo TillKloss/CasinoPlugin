@@ -24,6 +24,14 @@ public class CasinoSession {
         betItems.clear();
     }
 
+    public ItemStack consumeNextBetItem() {
+        if (betItems.isEmpty()) {
+            return null;
+        }
+
+        return betItems.removeFirst().clone();
+    }
+
     public boolean hasBet() {
         return !betItems.isEmpty();
     }
@@ -35,7 +43,7 @@ public class CasinoSession {
     public void addToStash(List<ItemStack> items) {
         for (ItemStack item : items) {
             if (item != null) {
-                stashItems.add(item.clone());
+                addStacked(stashItems, item);
             }
         }
     }
@@ -63,7 +71,7 @@ public class CasinoSession {
 
         for (ItemStack item : stashItems) {
             if (item != null) {
-                this.stashItems.add(item.clone());
+                addStacked(this.stashItems, item);
             }
         }
     }
@@ -85,6 +93,33 @@ public class CasinoSession {
             if (item != null) {
                 this.betItems.add(item.clone());
             }
+        }
+    }
+
+    private void addStacked(List<ItemStack> items, ItemStack item) {
+        ItemStack remaining = item.clone();
+
+        for (ItemStack existing : items) {
+            if (!existing.isSimilar(remaining)) continue;
+
+            int freeSpace = existing.getMaxStackSize() - existing.getAmount();
+            if (freeSpace <= 0) continue;
+
+            int moveAmount = Math.min(freeSpace, remaining.getAmount());
+            existing.setAmount(existing.getAmount() + moveAmount);
+            remaining.setAmount(remaining.getAmount() - moveAmount);
+
+            if (remaining.getAmount() <= 0) {
+                return;
+            }
+        }
+
+        while (remaining.getAmount() > 0) {
+            ItemStack stack = remaining.clone();
+            int amount = Math.min(remaining.getAmount(), stack.getMaxStackSize());
+            stack.setAmount(amount);
+            items.add(stack);
+            remaining.setAmount(remaining.getAmount() - amount);
         }
     }
 

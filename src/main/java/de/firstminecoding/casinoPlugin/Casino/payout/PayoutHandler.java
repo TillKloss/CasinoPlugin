@@ -1,7 +1,6 @@
 package de.firstminecoding.casinoPlugin.Casino.payout;
 
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
-import de.firstminecoding.casinoPlugin.Casino.stash.StashGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -19,7 +18,24 @@ public class PayoutHandler {
     }
 
     public void openPayoutInventory(Player player, List<ItemStack> rewards, String returnType) {
-        player.openInventory(new PayoutGUI().createPayoutInventory(rewards, returnType));
+        List<ItemStack> visibleRewards = new ArrayList<>();
+        List<ItemStack> overflowRewards = new ArrayList<>();
+
+        for (ItemStack reward : rewards) {
+            if (reward == null || reward.getType() == Material.AIR) continue;
+
+            if (visibleRewards.size() < PayoutGUI.PAYOUT_ITEM_SLOTS) {
+                visibleRewards.add(reward.clone());
+            } else {
+                overflowRewards.add(reward.clone());
+            }
+        }
+
+        if (!overflowRewards.isEmpty()) {
+            casinoHandler.getSession(player).addToStash(overflowRewards);
+        }
+
+        player.openInventory(new PayoutGUI().createPayoutInventory(visibleRewards, returnType));
     }
 
     public void handlePayoutClose(Player player, String returnType) {

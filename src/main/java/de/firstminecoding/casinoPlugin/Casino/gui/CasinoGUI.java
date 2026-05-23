@@ -45,6 +45,8 @@ public class CasinoGUI {
 
         ItemStack slotSymbol = createItem(Material.DIAMOND,
                 Component.text("Slot Machine", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD));
+        ItemStack bookSlotSymbol = createItem(Material.BOOK,
+                Component.text("Book Slot", NamedTextColor.GOLD, TextDecoration.BOLD));
         ItemStack coinflipSymbol = CoinflipCustomHead.HEADS.createItem();
         ItemMeta metaCoinflip = coinflipSymbol.getItemMeta();
         if (metaCoinflip != null) {
@@ -64,6 +66,7 @@ public class CasinoGUI {
         inventory.setItem(0, chest);
         inventory.setItem(2, slotSymbol);
         inventory.setItem(4, diceSymbol);
+        inventory.setItem(5, bookSlotSymbol);
         inventory.setItem(6, coinflipSymbol);
         inventory.setItem(8, redPane);
 

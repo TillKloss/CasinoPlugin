@@ -70,7 +70,7 @@ public class StashHandler {
     public List<ItemStack> getRemainingPayoutItems(Inventory inventory) {
         List<ItemStack> remaining = new ArrayList<>();
 
-        for (int i=0;i<50;i++) {
+        for (int i=0;i<51;i++) {
             ItemStack item = inventory.getItem(i);
 
             if (item != null && item.getType() != Material.AIR) {

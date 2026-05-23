@@ -3,7 +3,6 @@ package de.firstminecoding.casinoPlugin.Casino.games.slotmachine;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoSession;
-import de.firstminecoding.casinoPlugin.Casino.payout.PayoutGUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -13,7 +12,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static de.firstminecoding.casinoPlugin.Casino.util.RewardUtil.multiplyItems;
@@ -30,8 +28,6 @@ public class SlotMachineHandler {
     public void openSlotMachineInventory(Player player) {
         player.openInventory(new SlotMachineGUI().createSlotMachineInventory(casinoHandler.getSession(player)));
     }
-
-
 
     public void startSlotMachine(Player player) {
         Inventory inventory = player.getOpenInventory().getTopInventory();
@@ -65,7 +61,7 @@ public class SlotMachineHandler {
 
             if (multiplier > 0) {
                 List<ItemStack> rewards = multiplyItems(session.getBetItems(), multiplier);
-                player.openInventory(new PayoutGUI().createPayoutInventory(rewards, "slot-machine"));
+                casinoHandler.getPayoutHandler().openPayoutInventory(player, rewards, "slot-machine");
             } else {
                 session.clearBet();
                 openSlotMachineInventory(player);

@@ -1,6 +1,7 @@
 package de.firstminecoding.casinoPlugin.Casino.core;
 
 import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipCustomHead;
+import de.firstminecoding.casinoPlugin.Casino.games.bookslot.BookSlotGUI;
 import de.firstminecoding.casinoPlugin.Casino.games.dice.DiceCustomHead;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -44,6 +45,9 @@ public class CasinoListener implements Listener {
                 }
                 case 4 -> {
                     casinoHandler.getDiceHandler().openDiceInventory(player);
+                }
+                case 5 -> {
+                    player.openInventory(new BookSlotGUI().createBookSlotInventory());
                 }
                 case 6 -> {
                     casinoHandler.getCoinflipHandler().openCoinflipInventory(player);

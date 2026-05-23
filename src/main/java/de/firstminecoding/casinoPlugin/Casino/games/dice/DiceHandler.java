@@ -3,11 +3,11 @@ package de.firstminecoding.casinoPlugin.Casino.games.dice;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoHandler;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoSession;
 import de.firstminecoding.casinoPlugin.Casino.core.CasinoInventoryHolder;
-import de.firstminecoding.casinoPlugin.Casino.payout.PayoutGUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -78,10 +78,11 @@ public class DiceHandler {
                 };
 
                 List<ItemStack> rewards = multiplyItems(session.getBetItems(), multiplier);
-
-                player.openInventory(new PayoutGUI().createPayoutInventory(rewards, "dice"));
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+                casinoHandler.getPayoutHandler().openPayoutInventory(player, rewards, "dice");
 
             } else {
+                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.5f, 0.7f);
                 session.clearBet();
                 openDiceInventory(player);
             }

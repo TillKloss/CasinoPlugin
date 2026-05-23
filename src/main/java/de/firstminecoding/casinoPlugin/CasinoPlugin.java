@@ -10,6 +10,7 @@ import de.firstminecoding.casinoPlugin.Casino.games.coinflip.CoinflipListener;
 import de.firstminecoding.casinoPlugin.Casino.games.dice.DiceListener;
 import de.firstminecoding.casinoPlugin.Casino.games.slotmachine.SlotMachineListener;
 import de.firstminecoding.casinoPlugin.Casino.payout.PayoutListener;
+import de.firstminecoding.casinoPlugin.Casino.stash.StashCommand;
 import de.firstminecoding.casinoPlugin.Casino.stash.StashListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +22,7 @@ public final class CasinoPlugin extends JavaPlugin {
 
         //Register Command
         getCommand("casino").setExecutor(new CasinoCommand(casinoHandler));
+        getCommand("stash").setExecutor(new StashCommand(casinoHandler));
 
         //Register Listener
         getServer().getPluginManager().registerEvents(new CasinoListener(casinoHandler), this);

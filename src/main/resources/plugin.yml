@@ -6,6 +6,9 @@ commands:
     description: Drehe an der Slot Maschine
     usage: /casino
     aliases: [slotmachine, sm]
+  stash:
+    description: Öffnet deinen Casino Stash
+    usage: /stash
 
 softdepend: [Citizens]
 

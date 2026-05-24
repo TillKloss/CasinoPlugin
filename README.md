@@ -119,6 +119,14 @@ Aliases:
 
 ---
 
+## Download
+
+Die aktuelle Plugin-Jar findest du unter:
+
+[Releases](https://github.com/TillKloss/CasinoPlugin/releases)
+
+---
+
 ## Installation
 
 1. Repository klonen:

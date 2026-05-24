@@ -53,6 +53,7 @@ public class DiceHandler {
         if (!session.hasBet()) return;
         if (session.getSelectedDiceNumbers().isEmpty()) return;
 
+        List<ItemStack> betItems = session.getBetItems();
         session.setDiceRolling(true);
 
         new DiceGUI().setRollButton(inventory, Material.RED_STAINED_GLASS_PANE,
@@ -65,6 +66,7 @@ public class DiceHandler {
 
             if (result == -1) return;
 
+            session.clearBet();
             Set<Integer> selected = session.getSelectedDiceNumbers();
 
             if (selected.contains(result)) {
@@ -77,13 +79,12 @@ public class DiceHandler {
                     default -> 0;
                 };
 
-                List<ItemStack> rewards = multiplyItems(session.getBetItems(), multiplier);
+                List<ItemStack> rewards = multiplyItems(betItems, multiplier);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
                 casinoHandler.getPayoutHandler().openPayoutInventory(player, rewards, "dice");
 
             } else {
                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.5f, 0.7f);
-                session.clearBet();
                 openDiceInventory(player);
             }
         });

@@ -141,6 +141,37 @@ public class SlotEngine {
         return new SlotResult(expandedGrid, result.getStartIndexes(), evaluateExpandedBonusLines(expandedGrid, bonusSymbol), expandedReels);
     }
 
+    public SlotResult addBonusExpansionReel(SlotResult result, SlotSymbol bonusSymbol, int extraReel) {
+        SlotSymbol[][] expandedGrid = copyGrid(result);
+        List<Integer> expandedReels = new ArrayList<>(result.getExpandedReels());
+
+        if (!expandedReels.contains(extraReel)) {
+            expandedReels.add(extraReel);
+        }
+
+        for (int row = 0; row < SlotResult.ROWS; row++) {
+            expandedGrid[row][extraReel] = bonusSymbol;
+        }
+
+        return new SlotResult(expandedGrid, result.getStartIndexes(), evaluateExpandedBonusLines(expandedGrid, bonusSymbol), expandedReels);
+    }
+
+    public int chooseRandomNonExpandedReel(SlotResult result) {
+        List<Integer> candidates = new ArrayList<>();
+
+        for (int reel = 0; reel < SlotResult.REELS; reel++) {
+            if (!result.getExpandedReels().contains(reel)) {
+                candidates.add(reel);
+            }
+        }
+
+        if (candidates.isEmpty()) {
+            return -1;
+        }
+
+        return candidates.get(ThreadLocalRandom.current().nextInt(candidates.size()));
+    }
+
     private SlotSymbol[][] copyGrid(SlotResult result) {
         SlotSymbol[][] copy = new SlotSymbol[SlotResult.ROWS][SlotResult.REELS];
 

@@ -61,6 +61,17 @@ public class BookSlotGUI {
         }
     }
 
+    public void displayResultSlots(Inventory inventory, SlotResult result, Collection<Integer> slots) {
+        for (int row = 0; row < SlotResult.ROWS; row++) {
+            for (int reel = 0; reel < SlotResult.REELS; reel++) {
+                int slot = REEL_SLOTS[row][reel];
+                if (slots.contains(slot)) {
+                    inventory.setItem(slot, symbol(result.getSymbol(row, reel)));
+                }
+            }
+        }
+    }
+
     public void displayHighlightedResult(Inventory inventory, SlotResult result, Collection<Integer> highlightedSlots) {
         for (int row = 0; row < SlotResult.ROWS; row++) {
             for (int reel = 0; reel < SlotResult.REELS; reel++) {
@@ -79,6 +90,16 @@ public class BookSlotGUI {
     public void displayReel(Inventory inventory, int reel, SlotSymbol[] symbols) {
         for (int row = 0; row < SlotResult.ROWS; row++) {
             inventory.setItem(REEL_SLOTS[row][reel], symbol(symbols[row]));
+        }
+    }
+
+    public void displayBoardSymbol(Inventory inventory, SlotSymbol slotSymbol) {
+        ItemStack item = symbol(slotSymbol);
+
+        for (int row = 0; row < SlotResult.ROWS; row++) {
+            for (int reel = 0; reel < SlotResult.REELS; reel++) {
+                inventory.setItem(REEL_SLOTS[row][reel], item);
+            }
         }
     }
 

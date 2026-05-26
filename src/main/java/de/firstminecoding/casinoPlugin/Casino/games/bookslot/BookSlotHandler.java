@@ -16,9 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BookSlotHandler {
     private static final int[] REEL_STOP_STEPS = {8, 14, 20, 26, 32};
+    private static final double BONUS_ASSIST_CHANCE = 0.5;
+    private static final long POST_REEL_RESULT_DELAY_TICKS = 8L;
+    private static final int WIN_LINE_PAUSE_STEPS = 2;
 
     private final CasinoHandler casinoHandler;
     private final SlotEngine slotEngine = new SlotEngine();
@@ -124,7 +128,7 @@ public class BookSlotHandler {
 
                 if (step >= REEL_STOP_STEPS[SlotResult.REELS - 1]) {
                     gui.displayResult(inventory, result);
-                    finishSpin(player, inventory, gui, result, playerId, freeSpin, freeSpinState, freeSpin);
+                    finishSpinAfterReelPause(player, inventory, gui, result, playerId, freeSpin, freeSpinState);
                     cancel();
                     return;
                 }
@@ -134,6 +138,20 @@ public class BookSlotHandler {
         }.runTaskTimer(casinoHandler.getPlugin(), 0L, 2L);
     }
 
+    private void finishSpinAfterReelPause(Player player, Inventory inventory, BookSlotGUI gui, SlotResult result, UUID playerId, boolean freeSpin, FreeSpinState freeSpinState) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!canContinue(player, inventory)) {
+                    abortSpin(playerId);
+                    return;
+                }
+
+                finishSpin(player, inventory, gui, result, playerId, freeSpin, freeSpinState, freeSpin);
+            }
+        }.runTaskLater(casinoHandler.getPlugin(), POST_REEL_RESULT_DELAY_TICKS);
+    }
+
     private void handleExpansion(Player player, Inventory inventory, BookSlotGUI gui, SlotResult result, UUID playerId, FreeSpinState freeSpinState) {
         SlotResult expandedResult = slotEngine.expandBonusSymbol(result, freeSpinState.getBonusSymbol());
         if (!expandedResult.hasExpandedReels()) {
@@ -141,7 +159,62 @@ public class BookSlotHandler {
             return;
         }
 
+        if (expandedResult.getExpandedReels().size() == 2) {
+            animateBonusAssist(player, inventory, gui, expandedResult, playerId, freeSpinState);
+            return;
+        }
+
         animateExpansion(player, inventory, gui, result, expandedResult, playerId, freeSpinState);
+    }
+
+    private void animateBonusAssist(Player player, Inventory inventory, BookSlotGUI gui, SlotResult expandedResult, UUID playerId, FreeSpinState freeSpinState) {
+        SlotSymbol bonusSymbol = freeSpinState.getBonusSymbol();
+        boolean assisted = ThreadLocalRandom.current().nextDouble() < BONUS_ASSIST_CHANCE;
+        int extraReel = assisted ? slotEngine.chooseRandomNonExpandedReel(expandedResult) : -1;
+        SlotResult finalResult = extraReel >= 0
+                ? slotEngine.addBonusExpansionReel(expandedResult, bonusSymbol, extraReel)
+                : expandedResult;
+
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 0.7f, 1.2f);
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 0.55f, 0.7f);
+
+        new BukkitRunnable() {
+            private int blinkStep = 0;
+
+            @Override
+            public void run() {
+                if (!canContinue(player, inventory)) {
+                    abortSpin(playerId);
+                    cancel();
+                    return;
+                }
+
+                if (blinkStep % 2 == 0) {
+                    gui.displayBoardSymbol(inventory, bonusSymbol);
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 0.45f, 0.85f + (blinkStep * 0.09f));
+                } else {
+                    gui.displayResult(inventory, expandedResult);
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.25f, 1.25f + (blinkStep * 0.05f));
+                }
+
+                if (blinkStep >= 9) {
+                    gui.displayResult(inventory, finalResult);
+
+                    if (extraReel >= 0) {
+                        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.75f, 1.45f);
+                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8f, 1.8f);
+                    } else {
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 0.55f, 1.1f);
+                    }
+
+                    finishExpandedSpin(player, inventory, gui, finalResult, playerId, freeSpinState);
+                    cancel();
+                    return;
+                }
+
+                blinkStep++;
+            }
+        }.runTaskTimer(casinoHandler.getPlugin(), 2L, 4L);
     }
 
     private void animateExpansion(Player player, Inventory inventory, BookSlotGUI gui, SlotResult originalResult, SlotResult expandedResult, UUID playerId, FreeSpinState freeSpinState) {
@@ -217,6 +290,8 @@ public class BookSlotHandler {
         new BukkitRunnable() {
             private int lineIndex = 0;
             private int blinkStep = 0;
+            private int pauseStep = 0;
+            private WinningLine currentLine;
 
             @Override
             public void run() {
@@ -226,17 +301,26 @@ public class BookSlotHandler {
                     return;
                 }
 
+                if (pauseStep > 0) {
+                    if (currentLine != null) {
+                        gui.displayResultSlots(inventory, result, currentLine.getWinningSlots());
+                    }
+                    pauseStep--;
+                    return;
+                }
+
                 WinningLine winningLine = winningLines.get(lineIndex);
+                currentLine = winningLine;
 
                 if (blinkStep % 2 == 0) {
                     gui.displayDiamondSlots(inventory, winningLine.getWinningSlots());
                 } else {
-                    gui.displayResult(inventory, result);
+                    gui.displayResultSlots(inventory, result, winningLine.getWinningSlots());
                 }
 
                 if (blinkStep >= 7) {
                     lineIndex++;
-                    gui.displayResult(inventory, result);
+                    gui.displayResultSlots(inventory, result, winningLine.getWinningSlots());
 
                     if (lineIndex >= winningLines.size()) {
                         gui.displayWinInfo(inventory, result, freeSpin ? freeSpinState : null);
@@ -250,6 +334,7 @@ public class BookSlotHandler {
                     }
 
                     blinkStep = 0;
+                    pauseStep = WIN_LINE_PAUSE_STEPS;
                     return;
                 }
 
